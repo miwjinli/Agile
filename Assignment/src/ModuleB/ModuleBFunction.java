@@ -101,7 +101,7 @@ public class ModuleBFunction {
         System.out.print("Enter Total Annual Sales: ");
         double annualSale = s.nextDouble();
         s.nextLine();
-        String WorkingStatus = "Working";
+        String WorkingStatus = "Employed";
         Admin admin = new Admin(annualSale, ID, Pw, Name, IC, PhNo, Gender, Adds, Email, Position, WorkingStatus, Salary, 0);
         admin.calculateSalary();
         AddNewAdmin(admin);
@@ -130,7 +130,7 @@ public class ModuleBFunction {
         System.out.print("Enter HR Basic Salary: ");
         Salary = s.nextDouble();
         s.nextLine();
-        String WorkingStatus = "Working";
+        String WorkingStatus = "Employed";
         HR hr = new HR(TotalStaffManaged, ID, Pw, Name, IC, PhNo, Gender, Adds, Email, Position, WorkingStatus, Salary, 0);
         hr.calculateSalary();
         AddNewHR(hr);

@@ -81,22 +81,23 @@ public class ModuleBFunction {
     }
 
     public void DisplayAdminRegistration(int TotalOwner) {
-        String Position = "Owner";
+        String Position = "Admin";
         double Salary = 0;
         String ID = String.format("AD%06d", TotalOwner + 1);
-        System.out.print("Enter New Admin Password: ");
+        System.out.println("\n\nID: "+ID+"(This will be the username)");
+        System.out.print("Enter Password: ");
         String Pw = s.nextLine();
-        System.out.print("Enter New Admin Name: ");
+        System.out.print("Enter Name: ");
         String Name = s.nextLine();
-        System.out.print("Enter New Admin IC: ");
+        System.out.print("Enter IC: ");
         String IC = s.nextLine();
-        System.out.print("Enter New Admin Phone No: ");
+        System.out.print("Enter Phone No: ");
         String PhNo = s.nextLine();
-        System.out.print("Enter New Admin Gender(M/F): ");
+        System.out.print("Enter Gender(M/F): ");
         char Gender = Character.toUpperCase(s.nextLine().charAt(0));
-        System.out.print("Enter New Admin Address: ");
+        System.out.print("Enter Address: ");
         String Adds = s.nextLine();
-        System.out.print("Enter New Admin Email: ");
+        System.out.print("Enter Email: ");
         String Email = s.nextLine();
         System.out.print("Enter Total Annual Sales: ");
         double annualSale = s.nextDouble();
@@ -111,23 +112,24 @@ public class ModuleBFunction {
         String Position = "HR";
         double Salary = 0;
         String ID = String.format("HR%06d", TotalHR + 1);
-        System.out.print("Enter New HR Password: ");
+        System.out.println("\n\nID: "+ID+"(This will be the username)");
+        System.out.print("Enter Password: ");
         String Pw = s.nextLine();
-        System.out.print("Enter New HR Name: ");
+        System.out.print("Enter Name: ");
         String Name = s.nextLine();
-        System.out.print("Enter New HR IC: ");
+        System.out.print("Enter IC: ");
         String IC = s.nextLine();
-        System.out.print("Enter New HR Phone No: ");
+        System.out.print("Enter Phone No: ");
         String PhNo = s.nextLine();
-        System.out.print("Enter New HR Gender(M/F): ");
+        System.out.print("Enter Gender(M/F): ");
         char Gender = Character.toUpperCase(s.nextLine().charAt(0));
-        System.out.print("Enter New HR Address: ");
+        System.out.print("Enter Address: ");
         String Adds = s.nextLine();
-        System.out.print("Enter New HR Email: ");
+        System.out.print("Enter Email: ");
         String Email = s.nextLine();
         System.out.print("Enter Total Staff Managed: ");
         int TotalStaffManaged = s.nextInt();
-        System.out.print("Enter HR Basic Salary: ");
+        System.out.print("Enter Basic Salary: ");
         Salary = s.nextDouble();
         s.nextLine();
         String WorkingStatus = "Employed";
@@ -140,22 +142,23 @@ public class ModuleBFunction {
         String Position = "Delivery Man";
         double Salary = 0;
         String ID = String.format("DM%06d", TotalDeliveryMan + 1);
-        System.out.print("Enter New Delivery Man Password: ");
+        System.out.println("\n\nID: "+ID+"(This will be the username)");
+        System.out.print("Enter Password: ");
         String Pw = s.nextLine();
-        System.out.print("Enter New Delivery Man Name: ");
+        System.out.print("Enter Name: ");
         String Name = s.nextLine();
-        System.out.print("Enter New Delivery Man IC: ");
+        System.out.print("Enter IC: ");
         String IC = s.nextLine();
-        System.out.print("Enter New Delivery Man Phone No: ");
+        System.out.print("Enter Phone No: ");
         String PhNo = s.nextLine();
-        System.out.print("Enter New Delivery Man Gender(M/F): ");
+        System.out.print("Enter Gender(M/F): ");
         char Gender = s.nextLine().charAt(0);
-        System.out.print("Enter New Delivery Man Address: ");
+        System.out.print("Enter Address: ");
         String Adds = s.nextLine();
-        System.out.print("Enter New Delivery Man Email: ");
+        System.out.print("Enter Email: ");
         String Email = s.nextLine();
         Position = "Delivery Man";
-        System.out.print("Enter New Delivery Man Basic Salary: ");
+        System.out.print("Enter Basic Salary: ");
         Salary = s.nextDouble();
         s.nextLine();
         String WorkingStatus = "Employed";
@@ -174,6 +177,7 @@ public class ModuleBFunction {
                 DeliveryMan DM = deliveryMen.get(i);
                 if(DM.getWorkingStatus().equals("Employed")){
                 String choice = "0";
+                System.out.println("\n\nName: "+DM.getStaffName()+"\nIC: "+DM.getStaffIC());
                 System.out.print("Choose A Reason\n 1. Retired\n 2. Resigned\n");
                 while (!choice.equals("1") && !choice.equals("2")) {
                     System.out.print("Your Choice: ");
@@ -256,7 +260,7 @@ public class ModuleBFunction {
                 
             }
         }
-        System.out.println("Update Status Successfully!");
+        System.out.println("Update Status Successfully! New Status: " +DM.getWorkingStatus());
 
     }
     public List<DeliveryMan> getDeliveryMen() {

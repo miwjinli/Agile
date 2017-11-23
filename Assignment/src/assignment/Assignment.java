@@ -179,6 +179,8 @@ public class Assignment {
                 }
                 case"3":{
                     B.updateDeliveryManContactDetails(DM);
+                    DeliveryManMenu(deliveryMen);
+                    break;
                 }
                 case "4": {
                     break;

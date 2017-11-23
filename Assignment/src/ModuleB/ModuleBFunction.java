@@ -265,12 +265,47 @@ public class ModuleBFunction {
     }
 
     public void updateDeliveryManContactDetails(DeliveryMan DM) {
-        System.out.println("Your Phone No: " + DM.getStaffPhNo() + "\nYour Address: " + DM.getStaffAdds() + "\nYour Email: " + DM.getStaffEmail());
+        System.out.println("\n\nYour Phone No: " + DM.getStaffPhNo() + "\nYour Address: " + DM.getStaffAdds() + "\nYour Email: " + DM.getStaffEmail());
         String choice = "None";
-        System.out.println("What You want do update:\n1. Phone No\n2. Address\n3. Email");
-        while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3")) {
+        System.out.println("What You want do update:\n1. Phone No\n2. Address\n3. Email\n4. Back");
+        while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4")) {
             System.out.print("Choice: ");
-            s.nextLine();
+            choice = s.nextLine();
+            switch (choice) {
+                case "1": {
+                    System.out.println("\n\nYour Current Phone No: "+DM.getStaffPhNo());
+                    System.out.print("New Phone No: ");
+                    String newPhNo = s.nextLine();
+                    DM.setStaffPhNo(newPhNo);
+                    System.out.println("Update Phone No Successfully! Press Enter to Continue...");
+                    s.nextLine();
+                    break;
+                }
+                case "2": {
+                    System.out.println("\n\nYour Current Address: "+DM.getStaffAdds());
+                    System.out.print("New Address: ");
+                    String newAdds = s.nextLine();
+                    DM.setStaffAdds(newAdds);
+                    System.out.println("Update Address Successfully! Press Enter to Continue...");
+                    s.nextLine();
+                    break;
+                }
+                case"3":{
+                    System.out.println("\n\nYour Current Email: "+DM.getStaffEmail());
+                    System.out.print("New Email: ");
+                    String newEmail = s.nextLine();
+                    DM.setStaffEmail(newEmail);
+                    System.out.println("Update Email Successfully! Press Enter to Continue...");
+                    s.nextLine();
+                }
+                case "4": {
+                    break;
+                }
+                default: {
+                    System.out.println("Please Enter Again...");
+                    choice = "None";
+                }
+            }
         }
     }
 

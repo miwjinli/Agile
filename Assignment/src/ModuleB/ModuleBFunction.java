@@ -308,6 +308,67 @@ public class ModuleBFunction {
             }
         }
     }
+    
+    public void RetrieveDeliveryManPendingDeliveryMenu(){
+        String selection = "0";
+        System.out.println("Please Select The Option Below");
+        System.out.println("1. View All Pending Delivery");
+        System.out.println("2. View Delivery Man Pending Delivery");
+         System.out.println("3. Back");
+        while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3")) {
+            System.out.print("Option: ");
+            selection = s.next();
+            switch (selection) {
+                case "1":{
+                    int count = 0;
+                    for(int i=0;i<75;i++){
+                        System.out.print("*");
+                    }
+                    System.out.println("\nStaff ID\tStaff Name\tCurrent Available\tTotal Pending Order");
+                    for(int i=0;i<75;i++){
+                        System.out.print("*");
+                    }
+                    for(int i=0;i<deliveryMen.size();i++){
+                        if(deliveryMen.get(i).getTotalPendingDelivery()>0){
+                            System.out.print("\n"+deliveryMen.get(i).getStaffID()+"\t"+
+                                    deliveryMen.get(i).getStaffName()+"\t"+deliveryMen.get(i).getCurrentAvailable()+"\t\t"+
+                                    deliveryMen.get(i).getTotalPendingDelivery());
+                            count++;
+                        }
+                    }
+                    if(count==0){
+                        System.out.print("\n\t\tNone Record(s) Found...");
+                    }
+                    System.out.print("\n");
+                    for(int i=0;i<75;i++){
+                        System.out.print("*");
+                    }
+                    System.out.println("\n\n\nPress Enter To Continue,..");
+                    s.nextLine();
+                }
+                case "2":{
+                    RetrieveDeliveryManPendingDelivery();
+                }
+                case "3":{
+                    break;
+                }
+            }
+        }
+    }
+    
+    public void RetrieveDeliveryManPendingDelivery(){
+        System.out.print("\nEnter Delivery Man ID: ");
+        String id = s.nextLine();
+        for(int i=0;i<deliveryMen.size();i++){
+            if(id.equals(deliveryMen.get(i).getStaffID())){
+                System.out.println("\n\nID: "+deliveryMen.get(i).getStaffID()+"\nName: "+deliveryMen.get(i).getStaffName());
+                for(int j=0;j<75;j++){
+                        System.out.print("*");
+                }
+                System.out.println("\nCustomer ID\tOrder No\t");
+            }
+        }
+    }
 
     public List<DeliveryMan> getDeliveryMen() {
         return deliveryMen;
@@ -331,6 +392,11 @@ public class ModuleBFunction {
 
     public void setAdminList(List<Admin> adminList) {
         this.adminList = adminList;
+    }
+    
+    public static void main(String[]args){
+        ModuleBFunction mb = new ModuleBFunction();
+        mb.RetrieveDeliveryManPendingDeliveryMenu();
     }
 
 }

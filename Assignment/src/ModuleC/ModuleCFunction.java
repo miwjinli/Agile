@@ -228,7 +228,7 @@ public class ModuleCFunction {
         }
         System.out.println("------------------------------------");
         System.out.printf("Subtotal: RM%.2f\n",currentOrder.getSubtotal());
-        System.out.println("Total: RM"+(currentOrder.getSubtotal()*1.06));
+        System.out.printf("Total: RM%.2f\n",(currentOrder.getSubtotal()*1.06));
         System.out.println("Are You Sure Want To CheckOut?");
         System.out.println("1. Yes");
         System.out.println("2. Back To Food Selection");

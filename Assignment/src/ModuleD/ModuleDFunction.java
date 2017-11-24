@@ -127,7 +127,6 @@ public class ModuleDFunction
         
         while(found == false)
         {
-            s.nextLine();
             System.out.print("\nPlease Enter Deliverman ID : ");
             String DmID = s.nextLine();
         

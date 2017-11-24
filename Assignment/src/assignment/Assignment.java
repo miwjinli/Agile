@@ -150,11 +150,12 @@ public class Assignment {
 
     public void DeliveryManMenu(Employee deliveryMen) {
         Scanner s = new Scanner(System.in);
-
+        DeliveryMan DM = new DeliveryMan();
         String choice = "None";
         System.out.println("DeliveryMen Name : " + deliveryMen.getStaffName());
         for (int i = 0; i < DMList.size(); i++) {
             if (DMList.get(i).getStaffID().equals(deliveryMen.getStaffID())) {
+                DM=DMList.get(i);
                 String currentStatus = DMList.get(i).getCurrentAvailable();
                 System.out.println("Current Status : " + currentStatus);
             }
@@ -162,7 +163,7 @@ public class Assignment {
         System.out.println("**********");
         System.out.println("*  Menu  *");
         System.out.println("**********");
-        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3. Exit");
+        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3.Update Personal Contact Details\n4. Exit");
 
         while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3")) {
             System.out.print("Option : ");
@@ -176,7 +177,12 @@ public class Assignment {
                     D.ChangeDeliverStatus(DMList, deliveryMen.getStaffID());
                     break;
                 }
-                case "3": {
+                case"3":{
+                    B.updateDeliveryManContactDetails(DM);
+                    DeliveryManMenu(deliveryMen);
+                    break;
+                }
+                case "4": {
                     break;
                 }
                 default: {

@@ -164,9 +164,9 @@ public class Assignment {
         System.out.println("**********");
         System.out.println("*  Menu  *");
         System.out.println("**********");
-        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3.Update Personal Contact Details\n4. Exit");
+        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3. View Deliver Schedule\n4.Update Personal Contact Details\n5. Exit");
 
-        while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4")) {
+        while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5")) {
             System.out.print("Option : ");
             choice = s.nextLine();
             switch (choice) {
@@ -179,11 +179,15 @@ public class Assignment {
                     break;
                 }
                 case"3":{
+                    D.ViewDeliverSchedule(customer, DMList, order, restaurant, deliveryMen.getStaffID());
+                    break;
+                }
+                case "4": {
                     B.updateDeliveryManContactDetails(DM);
                     DeliveryManMenu(deliveryMen);
                     break;
                 }
-                case "4": {
+                case "5":{
                     break;
                 }
                 default: {

@@ -65,7 +65,7 @@ public class Assignment {
                     break;
                 }
                 case "3": {
-                    C.CustomerLogin(restaurant, food, customer, order, orderdetail);
+                    C.CustomerLogin();
                     menu();
                     break;
                 }
@@ -343,7 +343,7 @@ public class Assignment {
         food.add(new Food("FM000004", "Dinner Plate A", 11.50, "Set", '1', restaurant.get(1)));
         food.add(new Food("FM000005", "Dinner Plate B", 12.50, "Set", '1', restaurant.get(1)));
         food.add(new Food("FM000006", "Dinner Plate C", 13.50, "Set", '1', restaurant.get(1)));
-        customer.add(new Customer("CU000001", "Miw Jin Li", "14,Taman Cantik,53300,Setapak,Kuala Lumpur", "Setapak", "0167897899", "971003355333", "1234567890"));
+        customer.add(new Customer("CU000001", "Miw Jin Li", "14,Taman Cantik,53300,Setapak,Kuala Lumpur", "Setapak", "0167897898", "971003355333", "1234567890"));
         customer.add(new Customer("CU000001", "Miw Jin Le", "14,Taman Cantik,53300,Wangsa Maju,Kuala Lumpur", "Wangsa Maju", "0167897899", "970104079999", "1234567890"));
         order.add(new Orders(restaurant.get(0), customer.get(0), "OR000001", 0.00, 0.00, "1", 01, 10, 24, 11, 2017));
         order.add(new Orders(restaurant.get(1), customer.get(1), "OR000002", 0.00, 0.00, "1", 02, 10, 24, 11, 2017));
@@ -359,6 +359,11 @@ public class Assignment {
         B.setAdminList(adminList);
         B.setDSList(DSList);
         A.setRestaurant(restaurant);
+        C.setCustomer(customer);
+        C.setFood(food);
+        C.setOrder(order);
+        C.setOrderdetail(orderdetail);
+        C.setRestaurant(restaurant);
         menu();
     }
 

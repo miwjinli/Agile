@@ -32,6 +32,7 @@ public class Assignment {
     private List<DeliveryMan> DMList = new ArrayList<>();
     private List<Admin> adminList = new ArrayList<>();
     private List<HR> HRList = new ArrayList<>();
+    private List<DeliveryStatus> DSList = new ArrayList<>();
     private Employee loginStaff;
 
     /**
@@ -104,7 +105,7 @@ public class Assignment {
             } else if (loginStaff instanceof Admin) {
                 System.out.println("\n\n\n");
                 login = true;
-                D.ViewDeliverManClockInOut(DMList);
+                AdminMenu();
                 menu();
             } else {
                 System.out.println("Error. Username Not Found!");
@@ -150,11 +151,12 @@ public class Assignment {
 
     public void DeliveryManMenu(Employee deliveryMen) {
         Scanner s = new Scanner(System.in);
-
+        DeliveryMan DM = new DeliveryMan();
         String choice = "None";
         System.out.println("DeliveryMen Name : " + deliveryMen.getStaffName());
         for (int i = 0; i < DMList.size(); i++) {
             if (DMList.get(i).getStaffID().equals(deliveryMen.getStaffID())) {
+                DM=DMList.get(i);
                 String currentStatus = DMList.get(i).getCurrentAvailable();
                 System.out.println("Current Status : " + currentStatus);
             }
@@ -162,9 +164,9 @@ public class Assignment {
         System.out.println("**********");
         System.out.println("*  Menu  *");
         System.out.println("**********");
-        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3. View Deliver Schedule \n4. Exit");
+        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3. View Deliver Schedule\n4.Update Personal Contact Details\n5. Exit");
 
-        while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4")) {
+        while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5")) {
             System.out.print("Option : ");
             choice = s.nextLine();
             switch (choice) {
@@ -176,11 +178,16 @@ public class Assignment {
                     D.ChangeDeliverStatus(DMList, deliveryMen.getStaffID());
                     break;
                 }
-                case "3": {
-                    D.ViewDeliverSchedule(customer, DMList, order, restaurant, deliveryMen.getStaffID());
+                case"3":{
+                   D.ViewDeliverSchedule(customer, DMList, order, restaurant, deliveryMen.getStaffID());
                     break;
                 }
                 case "4": {
+                    B.updateDeliveryManContactDetails(DM);
+                    DeliveryManMenu(deliveryMen);
+                    break;
+                }
+                case "5":{
                     break;
                 }
                 default: {
@@ -190,7 +197,58 @@ public class Assignment {
             }
         }
     }
-
+    
+    public void AdminMenu(){
+      Scanner s = new Scanner(System.in);
+        String selection = "0";
+        java.util.Date date = new java.util.Date();
+        java.text.DateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        System.out.println("Welcome Back, " + loginStaff.getStaffName() + "\nCurrent Date:" + dateFormat.format(date) + "\n");
+        System.out.println("Please Select The Option Below");
+        System.out.println("1. View Delivery Man Clock In & Clock Out");
+        System.out.println("2. Retrieve Delivery Man Pending Delivery");
+        System.out.println("3. Under Contruction");
+        System.out.println("4. Under Contruction");
+        System.out.println("5. Under Contruction");
+        System.out.println("6. Log Out");
+        while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3") && !selection.equals("4") & !selection.equals("5")&& !selection.equals("6")) {
+            System.out.print("Option: ");
+            selection = s.nextLine();
+            switch (selection) {
+                case "1": {
+                    D.ViewDeliverManClockInOut(DMList);
+                    AdminMenu();
+                    break;
+                }
+                case "2": {
+                    B.RetrieveDeliveryManPendingDeliveryMenu();
+                    AdminMenu();
+                    break;
+                }
+                case "3": {
+                    AdminMenu();
+                    break;
+                }
+                case "4": {
+                    AdminMenu();
+                    break;
+                }
+                case "5": {
+                    AdminMenu();
+                    break;
+                }
+                case "6": {
+                    AdminMenu();
+                    break;
+                }
+                default: {
+                    System.out.println("Please Enter Again...");
+                    selection = "None";
+                }
+            }
+        }
+    }
+    
     public void HRMenu() {
         Scanner s = new Scanner(System.in);
         String selection = "0";
@@ -206,7 +264,7 @@ public class Assignment {
         System.out.println("6. Log Out");
         while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3") && !selection.equals("4")) {
             System.out.print("Option: ");
-            selection = s.next();
+            selection = s.nextLine();
             switch (selection) {
                 case "1": {
                     B.DisplayDeliveryManRegistration(DMList.size());
@@ -290,12 +348,16 @@ public class Assignment {
         order.add(new Orders(restaurant.get(0), customer.get(0), "OR000001", 0.00, 0.00, "1", 01, 10, 24, 11, 2017));
         order.add(new Orders(restaurant.get(1), customer.get(1), "OR000002", 0.00, 0.00, "1", 02, 10, 24, 11, 2017));
         orderdetail.add(new OrderDetail(order.get(0), food.get(0), 1));
-        DMList.add(new DeliveryMan(0, "Not Available", "None", "DM000001", "123456", "Ong Yi Jun", "971009-02-5213", "012-3456789", 'M', "2345 Lorong 3 Jalan ABC, 51020 KL", "OngYiJun@gmail.com", "Delivery Man", "Employed", 3500, 3500));
+        DMList.add(new DeliveryMan(1, "Not Available", "None", "DM000001", "123456", "Ong Yi Jun", "971009-02-5213", "012-3456789", 'M', "2345 Lorong 3 Jalan ABC, 51020 KL", "OngYiJun@gmail.com", "Delivery Man", "Employed", 3500, 3500));
         B.setDeliveryMen(DMList);
         HRList.add(new HR(1, "HR000001", "123456", "Ong Ong Jun", "970707-07-0707", "010-2255533", 'M', "Jalan Prima Setapak, KL", "OngOngJun@hotmail.com", "HR", "Employed", 3500, 3750));
         B.setHRList(HRList);
         adminList.add(new Admin(0, "AD000001", "123456", "ABC", "123456678", "012-345678", 'M', "22A, Deaman Ap, KL", "E@e.com", "Admin", "Employed", 0, 0));
+        DSList.add(new DeliveryStatus(null, null, null, null, "Delivering"));
+        DSList.get(0).setOrder(order.get(0));
+        DSList.get(0).setDM(DMList.get(0));
         B.setAdminList(adminList);
+        B.setDSList(DSList);
         A.setRestaurant(restaurant);
         menu();
     }

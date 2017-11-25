@@ -32,6 +32,7 @@ public class Assignment {
     private List<DeliveryMan> DMList = new ArrayList<>();
     private List<Admin> adminList = new ArrayList<>();
     private List<HR> HRList = new ArrayList<>();
+    private List<DeliveryStatus> DSList = new ArrayList<>();
     private Employee loginStaff;
 
     /**
@@ -347,7 +348,11 @@ public class Assignment {
         HRList.add(new HR(1, "HR000001", "123456", "Ong Ong Jun", "970707-07-0707", "010-2255533", 'M', "Jalan Prima Setapak, KL", "OngOngJun@hotmail.com", "HR", "Employed", 3500, 3750));
         B.setHRList(HRList);
         adminList.add(new Admin(0, "AD000001", "123456", "ABC", "123456678", "012-345678", 'M', "22A, Deaman Ap, KL", "E@e.com", "Admin", "Employed", 0, 0));
+        DSList.add(new DeliveryStatus(null, null, null, null, "Delivering"));
+        DSList.get(0).setOrder(order.get(0));
+        DSList.get(0).setDM(DMList.get(0));
         B.setAdminList(adminList);
+        B.setDSList(DSList);
         A.setRestaurant(restaurant);
         menu();
     }

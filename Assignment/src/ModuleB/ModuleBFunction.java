@@ -7,6 +7,7 @@ package ModuleB;
 
 import domain.Admin;
 import domain.DeliveryMan;
+import domain.DeliveryStatus;
 import domain.Employee;
 import domain.HR;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class ModuleBFunction {
     private List<DeliveryMan> deliveryMen = new ArrayList<>();
     private List<HR> HRList = new ArrayList<>();
     private List<Admin> adminList = new ArrayList<>();
+    private List<DeliveryStatus> DSList = new ArrayList<>();
     Scanner s = new Scanner(System.in);
 
     public ModuleBFunction() {
@@ -273,7 +275,7 @@ public class ModuleBFunction {
             choice = s.nextLine();
             switch (choice) {
                 case "1": {
-                    System.out.println("\n\nYour Current Phone No: "+DM.getStaffPhNo());
+                    System.out.println("\n\nYour Current Phone No: " + DM.getStaffPhNo());
                     System.out.print("New Phone No: ");
                     String newPhNo = s.nextLine();
                     DM.setStaffPhNo(newPhNo);
@@ -282,7 +284,7 @@ public class ModuleBFunction {
                     break;
                 }
                 case "2": {
-                    System.out.println("\n\nYour Current Address: "+DM.getStaffAdds());
+                    System.out.println("\n\nYour Current Address: " + DM.getStaffAdds());
                     System.out.print("New Address: ");
                     String newAdds = s.nextLine();
                     DM.setStaffAdds(newAdds);
@@ -290,8 +292,8 @@ public class ModuleBFunction {
                     s.nextLine();
                     break;
                 }
-                case"3":{
-                    System.out.println("\n\nYour Current Email: "+DM.getStaffEmail());
+                case "3": {
+                    System.out.println("\n\nYour Current Email: " + DM.getStaffEmail());
                     System.out.print("New Email: ");
                     String newEmail = s.nextLine();
                     DM.setStaffEmail(newEmail);
@@ -308,66 +310,95 @@ public class ModuleBFunction {
             }
         }
     }
-    
-    public void RetrieveDeliveryManPendingDeliveryMenu(){
+
+    public void RetrieveDeliveryManPendingDeliveryMenu() {
         String selection = "0";
         System.out.println("Please Select The Option Below");
         System.out.println("1. View All Pending Delivery");
         System.out.println("2. View Delivery Man Pending Delivery");
-         System.out.println("3. Back");
+        System.out.println("3. Back");
         while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3")) {
             System.out.print("Option: ");
-            selection = s.next();
+            selection = s.nextLine();
             switch (selection) {
-                case "1":{
+                case "1": {
                     int count = 0;
-                    for(int i=0;i<75;i++){
+                    for (int i = 0; i < 75; i++) {
                         System.out.print("*");
                     }
                     System.out.println("\nStaff ID\tStaff Name\tCurrent Available\tTotal Pending Order");
-                    for(int i=0;i<75;i++){
+                    for (int i = 0; i < 75; i++) {
                         System.out.print("*");
                     }
-                    for(int i=0;i<deliveryMen.size();i++){
-                        if(deliveryMen.get(i).getTotalPendingDelivery()>0){
-                            System.out.print("\n"+deliveryMen.get(i).getStaffID()+"\t"+
-                                    deliveryMen.get(i).getStaffName()+"\t"+deliveryMen.get(i).getCurrentAvailable()+"\t\t"+
-                                    deliveryMen.get(i).getTotalPendingDelivery());
+                    for (int i = 0; i < deliveryMen.size(); i++) {
+                        if (deliveryMen.get(i).getTotalPendingDelivery() > 0) {
+                            System.out.print("\n" + deliveryMen.get(i).getStaffID() + "\t"
+                                    + deliveryMen.get(i).getStaffName() + "\t" + deliveryMen.get(i).getCurrentAvailable() + "\t\t"
+                                    + deliveryMen.get(i).getTotalPendingDelivery());
                             count++;
                         }
                     }
-                    if(count==0){
+                    if (count == 0) {
                         System.out.print("\n\t\tNone Record(s) Found...");
                     }
                     System.out.print("\n");
-                    for(int i=0;i<75;i++){
+                    for (int i = 0; i < 75; i++) {
                         System.out.print("*");
                     }
                     System.out.println("\n\n\nPress Enter To Continue,..");
                     s.nextLine();
+                    break;
                 }
-                case "2":{
+                case "2": {
                     RetrieveDeliveryManPendingDelivery();
+                    break;
                 }
-                case "3":{
+                case "3": {
                     break;
                 }
             }
         }
     }
-    
-    public void RetrieveDeliveryManPendingDelivery(){
+
+    public void RetrieveDeliveryManPendingDelivery() {
         System.out.print("\nEnter Delivery Man ID: ");
         String id = s.nextLine();
-        for(int i=0;i<deliveryMen.size();i++){
-            if(id.equals(deliveryMen.get(i).getStaffID())){
-                System.out.println("\n\nID: "+deliveryMen.get(i).getStaffID()+"\nName: "+deliveryMen.get(i).getStaffName());
-                for(int j=0;j<75;j++){
-                        System.out.print("*");
+        int count = 0;
+        for (int i = 0; i < deliveryMen.size(); i++) {
+            if (id.equals(deliveryMen.get(i).getStaffID())) {
+                System.out.println("\n\nID: " + deliveryMen.get(i).getStaffID() + "\nName: " + deliveryMen.get(i).getStaffName());
+                for (int j = 0; j < 130; j++) {
+                    System.out.print("*");
                 }
-                System.out.println("\nCustomer ID\tOrder No\t");
+                System.out.println("\nCustomer ID\tOrder No\tAssigned Date\tAssigned Time\tDelivered Date\t\tDelivered Time\t\tDelivery Status");
+                for (int j = 0; j < 130; j++) {
+                    System.out.print("*");
+                }
+                for (int j = 0; j < DSList.size(); j++) {
+                    if (DSList.get(j).getDM().getStaffID().equals(id)) {
+                        System.out.print("\n" + DSList.get(j).getOrder().getCustomer().getCustID() + "\t"
+                                + DSList.get(j).getOrder().getOrdersID() + "\t" + "11/25/2017"/*DSList.get(j).getAssignedDate()*/ + "\t"
+                                + "10:36 A.M."/*DSList.get(j).getAssignedTime()*/ + "\t");
+                        if (DSList.get(j).getAssignedDate() != null) {
+                            System.out.print(DSList.get(j).getDeliveredDate() + "\t" + DSList.get(j).getDeliveredDate() + "\t"
+                                    + DSList.get(j).getDeliveredTime() + "\t" + DSList.get(j).getDeliveryStatus());
+                        } else {
+                            System.out.print("Not Yet Delivered\tNot Yet Delivered\t"+DSList.get(j).getDeliveryStatus());
+                        }
+                        count++;
+                    }
+                }
+                System.out.print("\n");
+                for (int j = 0; j < 130; j++) {
+                    System.out.print("*");
+                }
             }
         }
+        if (count == 0) {
+            System.out.print("\n\t\tNone Record(s) Found...");
+        }
+        System.out.println("\n\n\nPress Enter To Continue,..");
+        s.nextLine();
     }
 
     public List<DeliveryMan> getDeliveryMen() {
@@ -393,8 +424,16 @@ public class ModuleBFunction {
     public void setAdminList(List<Admin> adminList) {
         this.adminList = adminList;
     }
-    
-    public static void main(String[]args){
+
+    public List<DeliveryStatus> getDSList() {
+        return DSList;
+    }
+
+    public void setDSList(List<DeliveryStatus> DSList) {
+        this.DSList = DSList;
+    }
+
+    public static void main(String[] args) {
         ModuleBFunction mb = new ModuleBFunction();
         mb.RetrieveDeliveryManPendingDeliveryMenu();
     }

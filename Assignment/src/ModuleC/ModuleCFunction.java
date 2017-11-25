@@ -150,6 +150,7 @@ public class ModuleCFunction {
     public void makeOrder(Customer current,List<Restaurant> restaurant,List<Food> food,List<Customer> customer,List<Orders> order,List<OrderDetail> orderdetail, int resIndex){
         boolean checkout=false, ordered=false;
         String selection = "0",foodid = "0", nextID = "0";
+        int quantity;
         nextID = getCurrentID(order);
         currentOrder.setCustomer(current);
         currentOrder.setOrderStatus("Pending");
@@ -167,12 +168,15 @@ public class ModuleCFunction {
         for(int k=0 ; k<CurrentFood.size() ; k++){
             System.out.println("Food ID->"+CurrentFood.get(k).getFoodID());
             System.out.println("Food Name->"+CurrentFood.get(k).getFoodName());
-            System.out.println("Food Price-> RM"+CurrentFood.get(k).getFoodPrice());
+            System.out.printf("Food Price-> RM%.2f\n",CurrentFood.get(k).getFoodPrice());
             System.out.println("---------------------------------");
         }
         while(!foodid.equals("C")&&!foodid.equals("B")&&checkout==false){
-            System.out.println("Please Enter the Food ID that You Want (Press C to checkout, B to back and cancel):");
+            System.out.println("Please Enter the Food ID that You Want");
+            System.out.println("(Press C to confirm, B to back and cancel, V to view cart):");
             foodid = s.nextLine();
+            foodid = foodid.toUpperCase();
+            
             if(foodid.equals("C")){
                 checkout = Confirmation(current,restaurant,food,customer,order,orderdetail);
                 if(checkout==false){
@@ -188,32 +192,45 @@ public class ModuleCFunction {
                 break;
             }
             else{
-                System.out.println("Please Enter the Quantity:");
-                int quantity = s.nextInt();
-                s.nextLine();
-                for(int z=0 ; z<CurrentFood.size() ; z++){
-                    if(CurrentFood.get(z).getFoodID().equals(foodid)){
-                        double currentSubtotal = CurrentFood.get(z).getFoodPrice()*quantity;
+                //check whether food id is exist or not
+                boolean foodcheck = false;
+                for(int i=0; i<CurrentFood.size()&&foodcheck==false; i++){
+                    if(foodid.equals(CurrentFood.get(i).getFoodID())){
+                        foodcheck = true;
+                        do{
+                            System.out.println("Please Enter the Quantity:");
+                            while(!s.hasNextInt()){
+                                System.out.println("Please Enter the Quantity in Integer:");
+                                s.next();
+                            }
+                            quantity = s.nextInt();
+                            s.nextLine();
+                        }while(quantity<1);
+                        double currentSubtotal = CurrentFood.get(i).getFoodPrice()*quantity;
                         for(int q=0 ; q<currentDetail.size() ; q++){
                             if(currentDetail.get(q).getFood().getFoodID().equals(foodid)){
                                 int currentqty = currentDetail.get(q).getQuantity();
                                 quantity = quantity + currentqty;
                                 currentDetail.get(q).setQuantity(quantity);
-                                currentSubtotal = CurrentFood.get(z).getFoodPrice()*(quantity-currentqty);
+                                currentSubtotal = CurrentFood.get(i).getFoodPrice()*(quantity-currentqty);
                                 ordered=true;
                             }
                         }
-                            
+
                         if(ordered == false){
-                        currentDetail.add(new OrderDetail(currentOrder,CurrentFood.get(z),quantity));
+                        currentDetail.add(new OrderDetail(currentOrder,CurrentFood.get(i),quantity));
                         }
-                        
+
                         Subtotal+=currentSubtotal;
                         currentOrder.setSubtotal(Subtotal);
                     }
                 }
+                if(foodcheck==false){
+                    System.out.println("Please Enter The Correct Food ID");
+                }
+                //end of checking
             }
-        };
+        }
     }
     
     
@@ -269,8 +286,8 @@ public class ModuleCFunction {
                                 System.out.println("Quantity->"+orderdetail.get(j).getQuantity());
                             }
                         }
-                        System.out.println("Subtotal->RM"+order.get(k).getSubtotal());
-                        System.out.println("Total->RM"+order.get(k).getTotal());
+                        System.out.printf("Subtotal->RM%.2f\n",order.get(k).getSubtotal());
+                        System.out.printf("Total->RM%.2f\n",order.get(k).getTotal());
                         System.out.println("-----------------------------");
                     }
                     currentOrder = new Orders();

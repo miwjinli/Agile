@@ -22,10 +22,16 @@ public class ModuleCFunction {
     double Subtotal = 0.00;
     List<Food> CurrentFood = new ArrayList<>();
     
+    List<Restaurant> restaurant = new ArrayList<>();
+    List<Food> food = new ArrayList<>();
+    List<Orders> order = new ArrayList<>();
+    List<OrderDetail> orderdetail = new ArrayList<>();
+    List<Customer> customer = new ArrayList<>();
+    
     public ModuleCFunction() {
     }
     
-    public void CustomerLogin(List<Restaurant> restaurant,List<Food> food,List<Customer> customer,List<Orders> order,List<OrderDetail> orderdetail){
+    public void CustomerLogin(){
         String name, password;
         int check = 0;
         System.out.println("--------------");
@@ -42,21 +48,21 @@ public class ModuleCFunction {
                 if(password.equals(customer.get(i).getCustPass())){
                     check++;
                     System.out.println("Login Successful");
-                    CustomerMenu(customer.get(i),restaurant,food,customer,order,orderdetail);
+                    CustomerMenu(customer.get(i));
                 }
                 else{
                     System.out.println("Password is Invalid");
-                    CustomerLogin(restaurant,food,customer,order,orderdetail);
+                    CustomerLogin();
                 }
             }
         }
         if(check==0){
             System.out.println("This customer name is not exist");
-            CustomerLogin(restaurant,food,customer,order,orderdetail);
+            CustomerLogin();
         }
     }
     
-    public void CustomerMenu(Customer current,List<Restaurant> restaurant,List<Food> food,List<Customer> customer,List<Orders> order,List<OrderDetail> orderdetail){
+    public void CustomerMenu(Customer current){
         String selection = "0";
         System.out.println("--------------");
         System.out.println("Customer Menu");
@@ -72,7 +78,7 @@ public class ModuleCFunction {
             
             switch (selection) {
                 case "1": {
-                    SelectRestaurant(current,restaurant,food,customer,order,orderdetail);
+                    SelectRestaurant(current);
                     break;
                 }
                 case "2": {
@@ -89,14 +95,14 @@ public class ModuleCFunction {
                 }
                 default: {
                     System.out.println("Error, Please Key In Again.");
-                    CustomerMenu(current,restaurant,food,customer,order,orderdetail);
+                    CustomerMenu(current);
                     break;
                 }
             }
         }
     }
     
-    public String getCurrentID(List<Orders> order){
+    public String getCurrentID(){
         String nextID = "";
         if(order == null){
                 nextID = "OR000001";
@@ -110,7 +116,7 @@ public class ModuleCFunction {
         return nextID;
     }
     
-    public void SelectRestaurant(Customer current,List<Restaurant> restaurant,List<Food> food,List<Customer> customer,List<Orders> order,List<OrderDetail> orderdetail){
+    public void SelectRestaurant(Customer current){
         boolean find = false;
         int resIndex=0;
         String selection = "0";
@@ -124,7 +130,7 @@ public class ModuleCFunction {
         System.out.print("Please Enter the Restaurant Name (Example:KFC) B to Back: ");
         selection = s.nextLine();
         if(selection.equals("B")){
-            CustomerMenu(current,restaurant,food,customer,order,orderdetail);
+            CustomerMenu(current);
         }
         else{
         for(int i=0 ; i<restaurant.size()&&find==false ; i++){
@@ -136,22 +142,22 @@ public class ModuleCFunction {
                         CurrentFood.add(food.get(j));
                     }
                 }
-                makeOrder(current,restaurant,food,customer,order,orderdetail,resIndex);
+                makeOrder(current,resIndex);
             }
         }
         if(find==false){
             System.out.println();
             System.out.println("Please Enter Again");
-            SelectRestaurant(current,restaurant,food,customer,order,orderdetail);
+            SelectRestaurant(current);
         }
       }
     }
     
-    public void makeOrder(Customer current,List<Restaurant> restaurant,List<Food> food,List<Customer> customer,List<Orders> order,List<OrderDetail> orderdetail, int resIndex){
+    public void makeOrder(Customer current, int resIndex){
         boolean checkout=false, ordered=false;
         String selection = "0",foodid = "0", nextID = "0";
         int quantity;
-        nextID = getCurrentID(order);
+        nextID = getCurrentID();
         currentOrder.setCustomer(current);
         currentOrder.setOrderStatus("Pending");
         currentOrder.setOrdersDay(0);
@@ -178,9 +184,9 @@ public class ModuleCFunction {
             foodid = foodid.toUpperCase();
             
             if(foodid.equals("C")){
-                checkout = Confirmation(current,restaurant,food,customer,order,orderdetail);
+                checkout = Confirmation(current);
                 if(checkout==false){
-                    makeOrder(current,restaurant,food,customer,order,orderdetail,resIndex);
+                    makeOrder(current,resIndex);
                 }
             }
             else if(foodid.equals("B")){
@@ -188,7 +194,7 @@ public class ModuleCFunction {
                 currentDetail.clear();
                 Subtotal = 0.00;
                 CurrentFood.clear();
-                SelectRestaurant(current,restaurant,food,customer,order,orderdetail);
+                SelectRestaurant(current);
                 break;
             }
             else{
@@ -233,8 +239,7 @@ public class ModuleCFunction {
         }
     }
     
-    
-    public boolean Confirmation(Customer current,List<Restaurant> restaurant,List<Food> food,List<Customer> customer,List<Orders> order,List<OrderDetail> orderdetail){
+    public boolean Confirmation(Customer current){
         String selection = "";
         System.out.println("Below Are The Foods You Have Ordered");
         System.out.println("------------------------------------");
@@ -307,4 +312,47 @@ public class ModuleCFunction {
         }
         return true;
     }
+    
+    public void retrieveCustomer(){
+        String contact = "";
+        boolean check = false;
+        System.out.println("Please Enter The Contact Number :");
+        contact = s.nextLine();
+        for(int i=0 ; i<customer.size(); i++){
+            if(contact.equals(customer.get(i).getCustTelNo())){
+                System.out.println("\n\nPersonal Information");
+                System.out.println("---------------------------");
+                System.out.println("Name: "+customer.get(i).getCustName());
+                System.out.println("Address: "+customer.get(i).getCustAddress());
+                System.out.println("Area: "+customer.get(i).getCustArea());
+                System.out.println("IC Number: "+customer.get(i).getCustIC());
+                check=true;
+            }
+        }
+        if(check==false){
+            System.out.println("This Contact Number is Not Exist in Customer Database");
+        }
+    }
+
+    public void setRestaurant(List<Restaurant> restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public void setFood(List<Food> food) {
+        this.food = food;
+    }
+
+    public void setOrder(List<Orders> order) {
+        this.order = order;
+    }
+
+    public void setOrderdetail(List<OrderDetail> orderdetail) {
+        this.orderdetail = orderdetail;
+    }
+
+    public void setCustomer(List<Customer> customer) {
+        this.customer = customer;
+    }
+    
+    
 }

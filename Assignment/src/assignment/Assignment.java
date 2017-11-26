@@ -164,7 +164,7 @@ public class Assignment {
         System.out.println("**********");
         System.out.println("*  Menu  *");
         System.out.println("**********");
-        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3. View Deliver Schedule\n4.Update Personal Contact Details\n5. Exit");
+        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3. View Deliver Schedule\n4. Update Personal Contact Details\n5. Retrive Customer Details\n6. Exit");
 
         while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5")) {
             System.out.print("Option : ");
@@ -188,6 +188,7 @@ public class Assignment {
                     break;
                 }
                 case "5":{
+                    C.retrieveCustomer();
                     break;
                 }
                 default: {

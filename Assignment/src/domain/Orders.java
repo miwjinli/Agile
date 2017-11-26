@@ -21,7 +21,11 @@ public class Orders {
     private int OrdersDay;
     private int OrdersMonth;
     private int OrdersYear;
-
+    
+    public Orders(){
+        
+    }
+    
     public Orders(Restaurant restaurant, Customer customer, String OrdersID, double Subtotal, double Total, String OrderStatus, int OrdersHour, int OrdersMinute, int OrdersDay, int OrdersMonth, int OrdersYear) {
         this.restaurant = restaurant;
         this.customer = customer;

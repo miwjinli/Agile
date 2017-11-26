@@ -1,9 +1,10 @@
 package ModuleD;
 
-import domain.Admin;
+import domain.Customer;
 import domain.DeliveryMan;
 import domain.Employee;
-import domain.HR;
+import domain.Orders;
+import domain.Restaurant;
 import domain.WorkStatus;
 import java.util.Calendar;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
+import java.util.Date;
 
 public class ModuleDFunction 
 {
@@ -22,7 +24,7 @@ public class ModuleDFunction
     public ModuleDFunction()
     {}
     
-    //Let Deliverman clock in clock out
+    //Let Deliveryman clock in clock out
     public Employee DeliveryMenClockInOut(List<DeliveryMan> deliveryMen, String staffID)
     {
         int choose = -99;
@@ -120,14 +122,13 @@ public class ModuleDFunction
         return null;
     }
     
-    //For Owner to view the Deliverman Clock In Clock Out.
+    //For Owner to view the Deliveryman Clock In Clock Out.
     public void ViewDeliverManClockInOut(List<DeliveryMan> deliveryMen)
     {
         boolean found = false;
         
         while(found == false)
         {
-            s.nextLine();
             System.out.print("\nPlease Enter Deliverman ID : ");
             String DmID = s.nextLine();
         
@@ -180,7 +181,7 @@ public class ModuleDFunction
         System.out.print("\n\n");
     }
     
-    //Let Deliverman Change the deliver status
+    //Let Deliveryman Change the deliver status
     public void ChangeDeliverStatus(List<DeliveryMan> deliveryMen, String staffID) 
     {
         
@@ -304,6 +305,68 @@ public class ModuleDFunction
                     System.out.println("\nYou must clock in first\n");
                     break;
                 }
+            }
+        }
+    }
+    
+    //let DeliveryMan to view to undeliver order schedule
+    public void ViewDeliverSchedule(List<Customer> customer, List<DeliveryMan> deliveryMen, List<Orders> orders, List<Restaurant> restaurant, String staffID)
+    {
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int hour = cal.get(Calendar.HOUR);
+        int minute = cal.get(Calendar.MINUTE);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH)+1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        
+        for(int i = 0 ; i < deliveryMen.size() ; i++)
+        {
+            if(staffID.endsWith(deliveryMen.get(i).getStaffID()))
+            {
+                System.out.println("ID : " + deliveryMen.get(i).getStaffID());
+                System.out.println("Name : " + deliveryMen.get(i).getStaffName());
+                System.out.println("\nDeliver Schedule");
+                System.out.println("Date : " + day + "/" + month + "/" + year);
+                System.out.println("Time : " + hour + ":" + minute);
+                System.out.println("******************************************");
+                
+                for(int j = 0 ; j < orders.size() ; j++)
+                {
+                    if(orders.get(j).getOrdersDay() == day && orders.get(j).getOrdersMonth() == month && orders.get(j).getOrdersYear() == year)
+                    {
+                        if(orders.get(j).getOrdersHour() == hour)
+                        {
+                            if(orders.get(j).getOrdersMinute() >= minute)
+                            {
+                                System.out.println("\nOrder ID : " + orders.get(j).getOrdersID());
+                                System.out.println("Restaurant : " + orders.get(j).getRestaurant().getRestaurantName());
+                                System.out.println("Customer Name : " + orders.get(j).getCustomer().getCustName());
+                                System.out.println("Customer Address : " + orders.get(j).getCustomer().getCustAddress());
+                            }
+                        }
+                        else if(orders.get(j).getOrdersHour() > hour)
+                        {
+                            System.out.println("\nOrder ID : " + orders.get(j).getOrdersID());
+                            System.out.println("Restaurant : " + orders.get(j).getRestaurant().getRestaurantName());
+                            System.out.println("Customer Name : " + orders.get(j).getCustomer().getCustName());
+                            System.out.println("Customer Address : " + orders.get(j).getCustomer().getCustAddress());
+                        }
+                        else
+                        {
+                            System.out.println("No deliver order today");
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("No deliver order today");
+                    }
+                }
+            }
+            else
+            {
+                System.out.println("No such ID\n");
             }
         }
     }

@@ -316,6 +316,4 @@ public class ModuleAFunction {
     public void setFood(List<Food> food){
         this.food = food;
     }
-    
-        
 }

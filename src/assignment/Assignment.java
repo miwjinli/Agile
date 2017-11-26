@@ -34,7 +34,7 @@ public class Assignment {
     private List<HR> HRList = new ArrayList<>();
     private List<DeliveryStatus> DSList = new ArrayList<>();
     private Employee loginStaff;
-
+    private Restaurant r;
     /**
      * @param args the command line arguments
      */
@@ -55,7 +55,7 @@ public class Assignment {
             switch (selection) {
                 case "1": {
                     //create class at module A and import the module A at this class and den call the method from here
-                    A.RestaurantRegistration(restaurant);
+                    A.RestaurantRegistration();
                     menu();
                     break;
                 }
@@ -70,12 +70,12 @@ public class Assignment {
                     break;
                 }
                 case "4": {
-                    boolean a = false;
-                    a = A.RestaurantLogin(restaurant);
-                    System.out.println(a);
-                    if (a) {
+                    //boolean a = false;
+                    A.RestaurantLogin(r);
+                    //System.out.println(a);
+                    /*if (a) {
                         RestaurantMenu(restaurant);
-                    }
+                    }*/
                     break;
                 }
                 default: {
@@ -113,7 +113,7 @@ public class Assignment {
         }
     }
 
-    public void RestaurantMenu(List<Restaurant> restaurant) {
+    /*public void RestaurantMenu(List<Restaurant> restaurant) {
         Scanner sc = new Scanner(System.in);
         System.out.println("1. Add New Menu Items");
         System.out.println("2. Update Menu Item Details");
@@ -148,6 +148,7 @@ public class Assignment {
             }
         }
     }
+    */
 
     public void DeliveryManMenu(Employee deliveryMen) {
         Scanner s = new Scanner(System.in);
@@ -164,7 +165,7 @@ public class Assignment {
         System.out.println("**********");
         System.out.println("*  Menu  *");
         System.out.println("**********");
-        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3. View Deliver Schedule\n4. Update Personal Contact Details\n5. Retrive Customer Details\n6. Exit");
+        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3. View Deliver Schedule\n4.Update Personal Contact Details\n5. Exit");
 
         while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5")) {
             System.out.print("Option : ");
@@ -188,7 +189,6 @@ public class Assignment {
                     break;
                 }
                 case "5":{
-                    C.retrieveCustomer();
                     break;
                 }
                 default: {
@@ -338,12 +338,12 @@ public class Assignment {
     public void initializeList() {
         restaurant.add(new Restaurant("RE000001", "Nandos", "Tneh Chee Wei", "asd", "016-6666666", "Setapak", "100", "1234567890"));
         restaurant.add(new Restaurant("RE000002", "KFC", "Tneh Chee Wai", "asd", "016-6666666", "Wangsa Maju", "200", "1234567890"));
-        food.add(new Food("FM000001", "Chicken Bolognese", 11.50, "Noodles", '1', restaurant.get(0)));
-        food.add(new Food("FM000002", "Fish Bolognese", 11.50, "Noodles", '1', restaurant.get(0)));
-        food.add(new Food("FM000003", "Beef Bolognese", 13.50, "Noodles", '1', restaurant.get(0)));
-        food.add(new Food("FM000004", "Dinner Plate A", 11.50, "Set", '1', restaurant.get(1)));
-        food.add(new Food("FM000005", "Dinner Plate B", 12.50, "Set", '1', restaurant.get(1)));
-        food.add(new Food("FM000006", "Dinner Plate C", 13.50, "Set", '1', restaurant.get(1)));
+        food.add(new Food("FM000001", "Chicken Bolognese", 11.50, "Noodles", 'A', restaurant.get(0)));
+        food.add(new Food("FM000002", "Fish Bolognese", 11.50, "Noodles", 'A', restaurant.get(0)));
+        food.add(new Food("FM000003", "Beef Bolognese", 13.50, "Noodles", 'A', restaurant.get(0)));
+        food.add(new Food("FM000004", "Dinner Plate A", 11.50, "Set", 'A', restaurant.get(1)));
+        food.add(new Food("FM000005", "Dinner Plate B", 12.50, "Set", 'A', restaurant.get(1)));
+        food.add(new Food("FM000006", "Dinner Plate C", 13.50, "Set", 'A', restaurant.get(1)));
         customer.add(new Customer("CU000001", "Miw Jin Li", "14,Taman Cantik,53300,Setapak,Kuala Lumpur", "Setapak", "0167897898", "971003355333", "1234567890"));
         customer.add(new Customer("CU000001", "Miw Jin Le", "14,Taman Cantik,53300,Wangsa Maju,Kuala Lumpur", "Wangsa Maju", "0167897899", "970104079999", "1234567890"));
         order.add(new Orders(restaurant.get(0), customer.get(0), "OR000001", 0.00, 0.00, "1", 01, 10, 24, 11, 2017));
@@ -365,6 +365,7 @@ public class Assignment {
         C.setOrder(order);
         C.setOrderdetail(orderdetail);
         C.setRestaurant(restaurant);
+        A.setFood(food);
         menu();
     }
 

@@ -138,7 +138,7 @@ public class ModuleCFunction {
                 find = true;
                 resIndex = i;
                 for(int j=0 ; j<food.size() ; j++){
-                    if(food.get(j).getRestaurant().getRestaurantName().equals(selection)&&food.get(j).getFoodAvailability()=='1'){
+                    if(food.get(j).getRestaurant().getRestaurantName().equals(selection)&&food.get(j).getFoodAvailability()=='A'){
                         CurrentFood.add(food.get(j));
                     }
                 }

@@ -309,7 +309,7 @@ public class ModuleDFunction
         }
     }
     
-    //let DeliveryMan to view to undeliver order schedule
+    //let DeliveryMan to view to undeliver order schedule...
     public void ViewDeliverSchedule(List<Customer> customer, List<DeliveryMan> deliveryMen, List<Orders> orders, List<Restaurant> restaurant, String staffID)
     {
         Date date = new Date();
@@ -327,7 +327,7 @@ public class ModuleDFunction
             {
                 System.out.println("ID : " + deliveryMen.get(i).getStaffID());
                 System.out.println("Name : " + deliveryMen.get(i).getStaffName());
-                System.out.println("\nDeliver Schedule");
+                System.out.println("\nDeliver Schedule ");
                 System.out.println("Date : " + day + "/" + month + "/" + year);
                 System.out.println("Time : " + hour + ":" + minute);
                 System.out.println("******************************************");

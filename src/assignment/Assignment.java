@@ -35,7 +35,6 @@ public class Assignment {
     private List<DeliveryStatus> DSList = new ArrayList<>();
     private Employee loginStaff;
     private Restaurant r;
-
     /**
      * @param args the command line arguments
      */
@@ -71,13 +70,12 @@ public class Assignment {
                     break;
                 }
                 case "4": {
-                    
+                    //boolean a = false;
                     A.RestaurantLogin(r);
-                    /*
-                    if (a) {
+                    //System.out.println(a);
+                    /*if (a) {
                         RestaurantMenu(restaurant);
-                    }
-                    */
+                    }*/
                     break;
                 }
                 default: {
@@ -149,7 +147,8 @@ public class Assignment {
                 break;
             }
         }
-    }*/
+    }
+    */
 
     public void DeliveryManMenu(Employee deliveryMen) {
         Scanner s = new Scanner(System.in);
@@ -166,7 +165,7 @@ public class Assignment {
         System.out.println("**********");
         System.out.println("*  Menu  *");
         System.out.println("**********");
-        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3. View Deliver Schedule\n4. Update Personal Contact Details\n5. Retrive Customer Details\n6. Exit");
+        System.out.println("1. Clock In / Clock Out \n2. Change Deliver Status \n3. View Deliver Schedule\n4.Update Personal Contact Details\n5. Exit");
 
         while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4") && !choice.equals("5")) {
             System.out.print("Option : ");
@@ -190,7 +189,6 @@ public class Assignment {
                     break;
                 }
                 case "5":{
-                    C.retrieveCustomer();
                     break;
                 }
                 default: {
@@ -241,13 +239,12 @@ public class Assignment {
                     break;
                 }
                 case "6": {
-                    menu();
+                    AdminMenu();
                     break;
                 }
                 default: {
                     System.out.println("Please Enter Again...");
                     selection = "None";
-                    break;
                 }
             }
         }

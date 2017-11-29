@@ -306,6 +306,7 @@ public class ModuleBFunction {
                 default: {
                     System.out.println("Please Enter Again...");
                     choice = "None";
+                    break;
                 }
             }
         }
@@ -356,6 +357,10 @@ public class ModuleBFunction {
                 case "3": {
                     break;
                 }
+                default:{
+                    System.out.println("Please Enter Again...");
+                    break;
+                }
             }
         }
     }
@@ -367,11 +372,11 @@ public class ModuleBFunction {
         for (int i = 0; i < deliveryMen.size(); i++) {
             if (id.equals(deliveryMen.get(i).getStaffID())) {
                 System.out.println("\n\nID: " + deliveryMen.get(i).getStaffID() + "\nName: " + deliveryMen.get(i).getStaffName());
-                for (int j = 0; j < 130; j++) {
+                for (int j = 0; j < 140; j++) {
                     System.out.print("*");
                 }
                 System.out.println("\nCustomer ID\tOrder No\tAssigned Date\tAssigned Time\tDelivered Date\t\tDelivered Time\t\tDelivery Status");
-                for (int j = 0; j < 130; j++) {
+                for (int j = 0; j < 140; j++) {
                     System.out.print("*");
                 }
                 for (int j = 0; j < DSList.size(); j++) {
@@ -389,7 +394,7 @@ public class ModuleBFunction {
                     }
                 }
                 System.out.print("\n");
-                for (int j = 0; j < 130; j++) {
+                for (int j = 0; j < 140; j++) {
                     System.out.print("*");
                 }
             }

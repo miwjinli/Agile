@@ -341,16 +341,22 @@ public class ModuleDFunction
                             if(orders.get(j).getOrdersMinute() >= minute)
                             {
                                 System.out.println("\nOrder ID : " + orders.get(j).getOrdersID());
+                                System.out.println("Order Date : " + orders.get(j).getOrdersDay() + "/" + orders.get(j).getOrdersMonth() + "/" + orders.get(j).getOrdersYear());
+                                System.out.println("Order Time : " + orders.get(j).getOrdersHour() + ":" + orders.get(j).getOrdersMinute());
                                 System.out.println("Restaurant : " + orders.get(j).getRestaurant().getRestaurantName());
                                 System.out.println("Customer Name : " + orders.get(j).getCustomer().getCustName());
+                                System.out.println("Customer Hp : " + orders.get(j).getCustomer().getCustTelNo());
                                 System.out.println("Customer Address : " + orders.get(j).getCustomer().getCustAddress());
                             }
                         }
                         else if(orders.get(j).getOrdersHour() > hour)
                         {
                             System.out.println("\nOrder ID : " + orders.get(j).getOrdersID());
+                            System.out.println("Order Date : " + orders.get(j).getOrdersDay() + "/" + orders.get(j).getOrdersMonth() + "/" + orders.get(j).getOrdersYear());
+                            System.out.println("Order Time : " + orders.get(j).getOrdersHour() + ":" + orders.get(j).getOrdersMinute());
                             System.out.println("Restaurant : " + orders.get(j).getRestaurant().getRestaurantName());
                             System.out.println("Customer Name : " + orders.get(j).getCustomer().getCustName());
+                            System.out.println("Customer Hp : " + orders.get(j).getCustomer().getCustTelNo());
                             System.out.println("Customer Address : " + orders.get(j).getCustomer().getCustAddress());
                         }
                         else

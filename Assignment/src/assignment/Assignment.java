@@ -33,6 +33,7 @@ public class Assignment {
     private List<Admin> adminList = new ArrayList<>();
     private List<HR> HRList = new ArrayList<>();
     private List<DeliveryStatus> DSList = new ArrayList<>();
+    private List<WorkStatus> WSList = new ArrayList<>();
     private Employee loginStaff;
     private Restaurant r;
 
@@ -61,7 +62,6 @@ public class Assignment {
                     break;
                 }
                 case "2": {
-                    System.out.println("2");
                     staffMenu();
                     break;
                 }
@@ -210,7 +210,7 @@ public class Assignment {
         System.out.println("Please Select The Option Below");
         System.out.println("1. View Delivery Man Clock In & Clock Out");
         System.out.println("2. Retrieve Delivery Man Pending Delivery");
-        System.out.println("3. Under Contruction");
+        System.out.println("3. Generate Total Deliveries Report");
         System.out.println("4. Under Contruction");
         System.out.println("5. Under Contruction");
         System.out.println("6. Log Out");
@@ -229,6 +229,7 @@ public class Assignment {
                     break;
                 }
                 case "3": {
+                    B.generateTotalDeliveriesReportMenu();
                     AdminMenu();
                     break;
                 }
@@ -261,7 +262,7 @@ public class Assignment {
         System.out.println("Welcome Back, " + loginStaff.getStaffName() + "\nCurrent Date:" + dateFormat.format(date) + "\n");
         System.out.println("Please Select The Option Below");
         System.out.println("1. Add New Delivery Man");
-        System.out.println("2. Add New Owner");
+        System.out.println("2. Add New Admin");
         System.out.println("3. Add New HR");
         System.out.println("4. Update Delivery Man Status");
         System.out.println("5. View Staff Details");
@@ -357,9 +358,14 @@ public class Assignment {
         HRList.add(new HR(1, "HR000001", "123456", "Ong Ong Jun", "970707-07-0707", "010-2255533", 'M', "Jalan Prima Setapak, KL", "OngOngJun@hotmail.com", "HR", "Employed", 3500, 3750));
         B.setHRList(HRList);
         adminList.add(new Admin(0, "AD000001", "123456", "ABC", "123456678", "012-345678", 'M', "22A, Deaman Ap, KL", "E@e.com", "Admin", "Employed", 0, 0));
-        DSList.add(new DeliveryStatus(null, null, null, null, "Delivering"));
+        DSList.add(new DeliveryStatus(null, null, null, null, "Accepted By Delivery Man"));
         DSList.get(0).setOrder(order.get(0));
         DSList.get(0).setDM(DMList.get(0));
+        java.util.Calendar today = java.util.Calendar.getInstance();
+        java.text.SimpleDateFormat SDF = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String date = SDF.format(today.getTime());
+        WSList.add(new WorkStatus("WS000001", today, today, 250, 4, DMList.get(0)));
+        B.setWSList(WSList);
         B.setAdminList(adminList);
         B.setDSList(DSList);
         A.setRestaurant(restaurant);

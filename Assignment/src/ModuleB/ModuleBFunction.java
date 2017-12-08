@@ -103,9 +103,19 @@ public class ModuleBFunction {
         String Adds = s.nextLine();
         System.out.print("Enter Email: ");
         String Email = s.nextLine();
-        System.out.print("Enter Total Annual Sales: ");
-        double annualSale = s.nextDouble();
-        s.nextLine();
+        boolean parseDouble = false;
+        double annualSale = 0;
+        while (!parseDouble) {
+            try {
+                System.out.print("Enter Total Annual Sales: ");
+                annualSale = s.nextDouble();
+                parseDouble = true;
+                s.nextLine();
+            } catch (Exception e) {
+                s.nextLine();
+                System.out.println("Annual Sales Must Be Only In Integer!");
+            }
+        }
         String WorkingStatus = "Employed";
         Admin admin = new Admin(annualSale, ID, Pw, Name, IC, PhNo, Gender, Adds, Email, Position, WorkingStatus, Salary, 0);
         admin.calculateSalary();
@@ -269,7 +279,7 @@ public class ModuleBFunction {
     }
 
     public void updateDeliveryManContactDetails(DeliveryMan DM) {
-        System.out.println("\n\nYour Phone No: " + DM.getStaffPhNo() + "\nYour Address: " + DM.getStaffAdds() + "\nYour Email: " + DM.getStaffEmail());
+        System.out.println("\n\nYour ID: " + DM.getStaffID() + "\nYour Name: " + DM.getStaffName() + "\nYour Phone No: " + DM.getStaffPhNo() + "\nYour Address: " + DM.getStaffAdds() + "\nYour Email: " + DM.getStaffEmail());
         String choice = "None";
         System.out.println("What You want do update:\n1. Phone No\n2. Address\n3. Email\n4. Back");
         while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3") && !choice.equals("4")) {
@@ -277,9 +287,28 @@ public class ModuleBFunction {
             choice = s.nextLine();
             switch (choice) {
                 case "1": {
-                    System.out.println("\n\nYour Current Phone No: " + DM.getStaffPhNo());
-                    System.out.print("New Phone No: ");
-                    String newPhNo = s.nextLine();
+                    boolean PhNoFormat = false;
+                    String newPhNo = null;
+                    while (!PhNoFormat) {
+                        PhNoFormat = true;
+                        System.out.println("\n\nYour Current Phone No: " + DM.getStaffPhNo());
+                        System.out.print("New Phone No: ");
+                        newPhNo = s.nextLine();
+                        for (int i = 0; i < newPhNo.length(); i++) {
+                            if (!Character.isDigit(newPhNo.charAt(i))) {
+                                if (i != 3) {
+                                    PhNoFormat = false;
+                                } else {
+                                    if (newPhNo.charAt(i) != '-' && newPhNo.charAt(i) != ' ') {
+                                        PhNoFormat = false;
+                                    }
+                                }
+                            }
+                        }
+                        if (!PhNoFormat) {
+                            System.out.println("Format of Phone Contact Number should only contains INTEGERs and One(1) Dash!\n");
+                        }
+                    }
                     DM.setStaffPhNo(newPhNo);
                     System.out.println("Update Phone No Successfully! Press Enter to Continue...");
                     s.nextLine();
@@ -368,37 +397,45 @@ public class ModuleBFunction {
     }
 
     public void RetrieveDeliveryManPendingDelivery() {
-        System.out.print("\nEnter Delivery Man ID: ");
-        String id = s.nextLine();
+
         int count = 0;
-        for (int i = 0; i < deliveryMen.size(); i++) {
-            if (id.equals(deliveryMen.get(i).getStaffID())) {
-                System.out.println("\n\nID: " + deliveryMen.get(i).getStaffID() + "\nName: " + deliveryMen.get(i).getStaffName());
-                for (int j = 0; j < 140; j++) {
-                    System.out.print("*");
-                }
-                System.out.println("\nCustomer ID\tOrder No\tAssigned Date\tAssigned Time\tDelivered Date\t\tDelivered Time\t\tDelivery Status");
-                for (int j = 0; j < 140; j++) {
-                    System.out.print("*");
-                }
-                for (int j = 0; j < DSList.size(); j++) {
-                    if (DSList.get(j).getDM().getStaffID().equals(id)) {
-                        System.out.print("\n" + DSList.get(j).getOrder().getCustomer().getCustID() + "\t"
-                                + DSList.get(j).getOrder().getOrdersID() + "\t" + "11/25/2017"/*DSList.get(j).getAssignedDate()*/ + "\t"
-                                + "10:36 A.M."/*DSList.get(j).getAssignedTime()*/ + "\t");
-                        if (DSList.get(j).getAssignedDate() != null) {
-                            System.out.print(DSList.get(j).getDeliveredDate() + "\t" + DSList.get(j).getDeliveredDate() + "\t"
-                                    + DSList.get(j).getDeliveredTime() + "\t" + DSList.get(j).getDeliveryStatus());
-                        } else {
-                            System.out.print("Not Yet Delivered\tNot Yet Delivered\t" + DSList.get(j).getDeliveryStatus());
+        boolean found = false;
+        while (!found) {
+            System.out.print("\nEnter Delivery Man ID: ");
+            String id = s.nextLine();
+            for (int i = 0; i < deliveryMen.size(); i++) {
+                if (id.equals(deliveryMen.get(i).getStaffID())) {
+                    found = true;
+                    System.out.println("\n\nID: " + deliveryMen.get(i).getStaffID() + "\nName: " + deliveryMen.get(i).getStaffName());
+                    for (int j = 0; j < 140; j++) {
+                        System.out.print("*");
+                    }
+                    System.out.println("\nCustomer ID\tOrder No\tAssigned Date\tAssigned Time\tDelivered Date\t\tDelivered Time\t\tDelivery Status");
+                    for (int j = 0; j < 140; j++) {
+                        System.out.print("*");
+                    }
+                    for (int j = 0; j < DSList.size(); j++) {
+                        if (DSList.get(j).getDM().getStaffID().equals(id)) {
+                            System.out.print("\n" + DSList.get(j).getOrder().getCustomer().getCustID() + "\t"
+                                    + DSList.get(j).getOrder().getOrdersID() + "\t" + "11/25/2017"/*DSList.get(j).getAssignedDate()*/ + "\t"
+                                    + "10:36 A.M."/*DSList.get(j).getAssignedTime()*/ + "\t");
+                            if (DSList.get(j).getAssignedDate() != null) {
+                                System.out.print(DSList.get(j).getDeliveredDate() + "\t" + DSList.get(j).getDeliveredDate() + "\t"
+                                        + DSList.get(j).getDeliveredTime() + "\t" + DSList.get(j).getDeliveryStatus());
+                            } else {
+                                System.out.print("Not Yet Delivered\tNot Yet Delivered\t" + DSList.get(j).getDeliveryStatus());
+                            }
+                            count++;
                         }
-                        count++;
+                    }
+                    System.out.print("\n");
+                    for (int j = 0; j < 140; j++) {
+                        System.out.print("*");
                     }
                 }
-                System.out.print("\n");
-                for (int j = 0; j < 140; j++) {
-                    System.out.print("*");
-                }
+            }
+            if (!found) {
+                System.out.println("Wrong Delivery Man ID Entered!Try Again!\n");
             }
         }
         if (count == 0) {

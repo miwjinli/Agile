@@ -537,11 +537,108 @@ public class ModuleBFunction {
                 System.out.println("\n\n\nPress Enter To Continue,..");
                 s.nextLine();
             } catch (Exception e) {
-                System.out.println("Wrong Date Format!");
+                System.out.println("Wrong Date Format! Try Again!");
             }
         }
     }
 
+    public void generateTotalDistanceReportMenu(){
+        System.out.println("Please Select The Option Below\n1. Generate Today Total Distance Report\n2. Generate Specific Date Total Distance Report\n3. Back");
+        String choice = "0";
+        while (!choice.equals("1") && !choice.equals("2") && !choice.equals("3")) {
+            System.out.print("Your Choice: ");
+            choice = s.nextLine();
+            switch (choice) {
+                case "1": {
+                    generateTodayTotalDistance();
+                    break;
+                }
+                case "2": {
+                    generateSpecificDateTotalDistance();
+                    break;
+                }
+                case "3": {
+                    break;
+                }
+                default: {
+                    System.out.println("Please Enter Again...");
+                    break;
+                }
+            }
+        }
+    }
+    
+    public void generateTodayTotalDistance(){
+        int count = 0;
+        for (int i = 0; i < 100; i++) {
+            System.out.print("*");
+        }
+        System.out.println("\nStaff ID\tStaff Name\tCheck In Date\t\tCheck Out Date\t\tTotal Distance(in KM)");
+        for (int i = 0; i < 100; i++) {
+            System.out.print("*");
+        }
+        java.util.Calendar today = java.util.Calendar.getInstance();
+        java.text.SimpleDateFormat SDF = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        java.text.SimpleDateFormat SDF2 = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String todayDate = SDF.format(today.getTime());
+        for (int i = 0; i < WSList.size(); i++) {
+            String compareDate = SDF.format(WSList.get(i).getCheckIn().getTime());
+            if (WSList.get(i).getTotalDistance() > 0 && todayDate.equals(compareDate)) {
+                System.out.println("\n" + WSList.get(i).getDM().getStaffID() + "\t" + WSList.get(i).getDM().getStaffName() + "\t" + SDF2.format(WSList.get(i).getCheckIn().getTime()) + "\t"
+                        + SDF2.format(WSList.get(i).getCheckOut().getTime()) + "\t" + WSList.get(i).getTotalDistance());
+                count++;
+            }
+        }
+        if (count == 0) {
+            System.out.println("\n\t\tNo Record(s) Found...");
+        }
+        for (int i = 0; i < 100; i++) {
+            System.out.print("*");
+        }
+        System.out.println("\n\n\nPress Enter To Continue,..");
+        s.nextLine();
+    }
+    
+    public void generateSpecificDateTotalDistance(){
+        int count = 0;
+        boolean parseDate = false;
+        while (!parseDate) {
+            System.out.print("Enter A Date (DD/MM/YYYY): ");
+            String date = s.nextLine();
+            try {
+                java.text.SimpleDateFormat SDF = new java.text.SimpleDateFormat("dd/MM/yyyy");
+                java.util.Date newDate = SDF.parse(date);
+                String compareDate = SDF.format(newDate);
+                parseDate = true;
+                for (int i = 0; i < 100; i++) {
+                    System.out.print("*");
+                }
+                System.out.println("\nStaff ID\tStaff Name\tCheck In Date\t\tCheck Out Date\t\tTotal Distance(in KM)");
+                for (int i = 0; i < 100; i++) {
+                    System.out.print("*");
+                }
+                java.text.SimpleDateFormat SDF2 = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                for (int i = 0; i < WSList.size(); i++) {
+                    if (WSList.get(i).getTotalDistance() > 0 && compareDate.equals(SDF.format(WSList.get(i).getCheckIn().getTime()))) {
+                        System.out.println("\n" + WSList.get(i).getDM().getStaffID() + "\t" + WSList.get(i).getDM().getStaffName() + "\t" + SDF2.format(WSList.get(i).getCheckIn().getTime()) + "\t"
+                                + SDF2.format(WSList.get(i).getCheckOut().getTime()) + "\t" + WSList.get(i).getTotalDistance());
+                        count++;
+                    }
+                }
+                if (count == 0) {
+                    System.out.println("\n\t\tNo Record(s) Found...");
+                }
+                for (int i = 0; i < 100; i++) {
+                    System.out.print("*");
+                }
+                System.out.println("\n\n\nPress Enter To Continue,..");
+                s.nextLine();
+            } catch (Exception e) {
+                System.out.println("Wrong Date Format! Try Again!");
+            }
+        }
+    }
+    
     public List<DeliveryMan> getDeliveryMen() {
         return deliveryMen;
     }

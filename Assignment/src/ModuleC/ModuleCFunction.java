@@ -177,7 +177,7 @@ public class ModuleCFunction {
             System.out.printf("Food Price-> RM%.2f\n",CurrentFood.get(k).getFoodPrice());
             System.out.println("---------------------------------");
         }
-        while(!foodid.equals("C")&&!foodid.equals("B")&&checkout==false){
+        while(!foodid.equals("C")&&!foodid.equals("B")&&!foodid.equals("V")&&checkout==false){
             System.out.println("Please Enter the Food ID that You Want");
             System.out.println("(Press C to confirm, B to back and cancel, V to view cart):");
             foodid = s.nextLine();
@@ -196,6 +196,10 @@ public class ModuleCFunction {
                 CurrentFood.clear();
                 SelectRestaurant(current);
                 break;
+            }
+            else if(foodid.equals("V")){
+                ViewCart(current);
+                makeOrder(current,resIndex);
             }
             else{
                 //check whether food id is exist or not
@@ -239,6 +243,44 @@ public class ModuleCFunction {
         }
     }
     
+    public void ViewCart(Customer current){
+        String selection = "";
+        boolean again = false;
+        System.out.println("\n\nBelow Are The Foods You Have Ordered Inside Your Cart");
+        System.out.println("------------------------------------");
+        for(int i=0 ; i<currentDetail.size() ; i++){
+            System.out.println("Food ID: "+currentDetail.get(i).getFood().getFoodID());
+            System.out.println("Food Name: "+currentDetail.get(i).getFood().getFoodName());
+            System.out.println("Quantity: "+currentDetail.get(i).getQuantity());
+        }
+        System.out.println("------------------------------------");
+        System.out.println("\n\nPlease Select Your Selection");
+        System.out.println("1. Edit");
+        System.out.println("2. Delete");
+        System.out.println("3. Back");
+        while(!selection.equals("1") && !selection.equals("2") && !selection.equals("3")){
+            System.out.print("Selection: ");
+            selection = s.nextLine();
+            switch(selection){
+                case "1":{
+                    System.out.println("Edit");
+                    break;
+                }
+                case "2":{
+                    System.out.println("Delete");
+                    break;
+                }
+                case "3":{
+                    break;
+                }
+                default:{
+                    System.out.println("Please Enter Again");
+                    break;
+                }
+            }
+        }
+    }
+    
     public boolean Confirmation(Customer current){
         String selection = "";
         double roundoff = 0.00, total = 0.00;
@@ -277,7 +319,7 @@ public class ModuleCFunction {
                     currentOrder.setOrdersYear(year);
                     currentOrder.setSubtotal(Subtotal);
                     currentOrder.setTotal(Subtotal*1.06);
-                    currentOrder.setOrderStatus("Completed");
+                    currentOrder.setOrderStatus("Completed");//change to 1
                     order.add(currentOrder);
                     for(int i=0 ; i<currentDetail.size() ; i++){
                         orderdetail.add(currentDetail.get(i));

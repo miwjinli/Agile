@@ -263,7 +263,7 @@ public class ModuleCFunction {
             selection = s.nextLine();
             switch(selection){
                 case "1":{
-                    System.out.println("Edit");
+                    System.out.println("Edit!");
                     break;
                 }
                 case "2":{

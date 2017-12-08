@@ -33,6 +33,7 @@ public class Assignment {
     private List<Admin> adminList = new ArrayList<>();
     private List<HR> HRList = new ArrayList<>();
     private List<DeliveryStatus> DSList = new ArrayList<>();
+    private List<WorkStatus> WSList = new ArrayList<>();
     private Employee loginStaff;
     private Restaurant r;
 
@@ -209,9 +210,8 @@ public class Assignment {
         System.out.println("Please Select The Option Below");
         System.out.println("1. View Delivery Man Clock In & Clock Out");
         System.out.println("2. Retrieve Delivery Man Pending Delivery");
-        System.out.println("3. Under Contruction");
-        System.out.println("4. Under Contruction");
-        System.out.println("5. Under Contruction");
+        System.out.println("3. Generate Total Deliveries Report");
+        System.out.println("4. Generate Total Distance Report");
         System.out.println("6. Log Out");
         while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3") && !selection.equals("4") & !selection.equals("5")&& !selection.equals("6")) {
             System.out.print("Option: ");
@@ -228,14 +228,12 @@ public class Assignment {
                     break;
                 }
                 case "3": {
+                    B.generateTotalDeliveriesReportMenu();
                     AdminMenu();
                     break;
                 }
                 case "4": {
-                    AdminMenu();
-                    break;
-                }
-                case "5": {
+                    B.generateTotalDistanceReportMenu();
                     AdminMenu();
                     break;
                 }
@@ -348,8 +346,8 @@ public class Assignment {
         food.add(new Food("FM000006", "Dinner Plate C", 13.50, "Set", 'A', restaurant.get(1)));
         customer.add(new Customer("CU000001", "Miw Jin Li", "14,Taman Cantik,53300,Setapak,Kuala Lumpur", "Setapak", "0167897898", "971003355333", "1234567890"));
         customer.add(new Customer("CU000001", "Miw Jin Le", "14,Taman Cantik,53300,Wangsa Maju,Kuala Lumpur", "Wangsa Maju", "0167897899", "970104079999", "1234567890"));
-        order.add(new Orders(restaurant.get(0), customer.get(0), "OR000001", 0.00, 0.00, "1", 01, 10, 24, 11, 2017));
-        order.add(new Orders(restaurant.get(1), customer.get(1), "OR000002", 0.00, 0.00, "1", 02, 10, 24, 11, 2017));
+        order.add(new Orders(restaurant.get(0), customer.get(0), "OR000001", 0.00, 0.00, "1", 16, 30, 1, 12, 2017));
+        order.add(new Orders(restaurant.get(1), customer.get(1), "OR000002", 0.00, 0.00, "1", 18, 10, 1, 12, 2017));
         orderdetail.add(new OrderDetail(order.get(0), food.get(0), 1));
         DMList.add(new DeliveryMan(1, "Not Available", "None", "DM000001", "123456", "Ong Yi Jun", "971009-02-5213", "012-3456789", 'M', "2345 Lorong 3 Jalan ABC, 51020 KL", "OngYiJun@gmail.com", "Delivery Man", "Employed", 3500, 3500));
         B.setDeliveryMen(DMList);
@@ -359,6 +357,11 @@ public class Assignment {
         DSList.add(new DeliveryStatus(null, null, null, null, "Accepted By Delivery Man"));
         DSList.get(0).setOrder(order.get(0));
         DSList.get(0).setDM(DMList.get(0));
+        java.util.Calendar today = java.util.Calendar.getInstance();
+        java.text.SimpleDateFormat SDF = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String date = SDF.format(today.getTime());
+        WSList.add(new WorkStatus("WS000001", today, today, 200, 4, DMList.get(0)));
+        B.setWSList(WSList);
         B.setAdminList(adminList);
         B.setDSList(DSList);
         A.setRestaurant(restaurant);

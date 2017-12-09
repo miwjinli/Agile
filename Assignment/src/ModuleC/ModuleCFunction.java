@@ -326,7 +326,7 @@ public class ModuleCFunction {
                     currentOrder.setOrdersYear(year);
                     currentOrder.setSubtotal(Subtotal);
                     currentOrder.setTotal(Subtotal*1.06);
-                    currentOrder.setOrderStatus("Completed");//change to 1
+                    currentOrder.setOrderStatus("1");//change to 1
                     order.add(currentOrder);
                     for(int i=0 ; i<currentDetail.size() ; i++){
                         orderdetail.add(currentDetail.get(i));

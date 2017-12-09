@@ -246,36 +246,43 @@ public class ModuleCFunction {
     public void ViewCart(Customer current){
         String selection = "";
         boolean again = false;
-        System.out.println("\n\nBelow Are The Foods You Have Ordered Inside Your Cart");
-        System.out.println("------------------------------------");
-        for(int i=0 ; i<currentDetail.size() ; i++){
-            System.out.println("Food ID: "+currentDetail.get(i).getFood().getFoodID());
-            System.out.println("Food Name: "+currentDetail.get(i).getFood().getFoodName());
-            System.out.println("Quantity: "+currentDetail.get(i).getQuantity());
+        if(currentDetail.isEmpty()){
+            System.out.println("\n\nYou Do Not Order Any Food Yet.");
+            System.out.println("Press Enter To Back.");
+            s.nextLine();
         }
-        System.out.println("------------------------------------");
-        System.out.println("\n\nPlease Select Your Selection");
-        System.out.println("1. Edit");
-        System.out.println("2. Delete");
-        System.out.println("3. Back");
-        while(!selection.equals("1") && !selection.equals("2") && !selection.equals("3")){
-            System.out.print("Selection: ");
-            selection = s.nextLine();
-            switch(selection){
-                case "1":{
-                    System.out.println("Edit!");
-                    break;
-                }
-                case "2":{
-                    System.out.println("Delete");
-                    break;
-                }
-                case "3":{
-                    break;
-                }
-                default:{
-                    System.out.println("Please Enter Again");
-                    break;
+        else{
+            System.out.println("\n\nBelow Are The Foods You Have Ordered Inside Your Cart");
+            System.out.println("------------------------------------");
+            for(int i=0 ; i<currentDetail.size() ; i++){
+                System.out.println("Food ID: "+currentDetail.get(i).getFood().getFoodID());
+                System.out.println("Food Name: "+currentDetail.get(i).getFood().getFoodName());
+                System.out.println("Quantity: "+currentDetail.get(i).getQuantity());
+            }
+            System.out.println("------------------------------------");
+            System.out.println("\nPlease Select Your Selection");
+            System.out.println("1. Edit");
+            System.out.println("2. Delete");
+            System.out.println("3. Back");
+            while(!selection.equals("1") && !selection.equals("2") && !selection.equals("3")){
+                System.out.print("Selection: ");
+                selection = s.nextLine();
+                switch(selection){
+                    case "1":{
+                        System.out.println("Edit!");
+                        break;
+                    }
+                    case "2":{
+                        System.out.println("Delete");
+                        break;
+                    }
+                    case "3":{
+                        break;
+                    }
+                    default:{
+                        System.out.println("Please Enter Again");
+                        break;
+                    }
                 }
             }
         }

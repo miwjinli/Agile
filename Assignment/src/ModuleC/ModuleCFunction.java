@@ -194,12 +194,19 @@ public class ModuleCFunction {
                 currentDetail.clear();
                 Subtotal = 0.00;
                 CurrentFood.clear();
-                SelectRestaurant(current);
+                CustomerMenu(current);
                 break;
             }
             else if(foodid.equals("V")){
-                ViewCart(current);
-                makeOrder(current,resIndex);
+                boolean again = ViewCart(current);
+                if(again){
+                    makeOrder(current,resIndex);
+                    break;
+                }
+                else{
+                    CustomerMenu(current);
+                    break;
+                }
             }
             else{
                 //check whether food id is exist or not
@@ -243,9 +250,9 @@ public class ModuleCFunction {
         }
     }
     
-    public void ViewCart(Customer current){
+    public boolean ViewCart(Customer current){
         String selection = "";
-        boolean again = false;
+        boolean again = true;
         if(currentDetail.isEmpty()){
             System.out.println("\n\nYou Do Not Order Any Food Yet.");
             System.out.println("Press Enter To Back.");
@@ -261,9 +268,10 @@ public class ModuleCFunction {
             }
             System.out.println("------------------------------------");
             System.out.println("\nPlease Select Your Selection");
-            System.out.println("1. Edit");
-            System.out.println("2. Delete");
-            System.out.println("3. Back");
+            System.out.println("1. Edit Food");
+            System.out.println("2. Delete Food");
+            System.out.println("3. Cancel Order");
+            System.out.println("4. Back");
             while(!selection.equals("1") && !selection.equals("2") && !selection.equals("3")){
                 System.out.print("Selection: ");
                 selection = s.nextLine();
@@ -277,6 +285,15 @@ public class ModuleCFunction {
                         break;
                     }
                     case "3":{
+                        currentOrder = new Orders();
+                        currentDetail.clear();
+                        Subtotal = 0.00;
+                        CurrentFood.clear();
+                        System.out.println("\nCancel Order Successful\n\n");
+                        again = false;
+                        break;
+                    }
+                    case "4":{
                         break;
                     }
                     default:{
@@ -286,6 +303,7 @@ public class ModuleCFunction {
                 }
             }
         }
+        return again;
     }
     
     public boolean Confirmation(Customer current){

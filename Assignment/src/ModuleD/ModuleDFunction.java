@@ -376,4 +376,46 @@ public class ModuleDFunction
             }
         }
     }
+    
+    /**Assign Deliverymen to deliver order
+    public void AssignDeliverymen(List<DeliveryMan> deliveryMen, List<Orders> orders)
+    {
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int hour = cal.get(Calendar.HOUR);
+        int minute = cal.get(Calendar.MINUTE);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH)+1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        
+        int newHour = -99;
+        int newMinute = -99;
+        int pendingMinute = minute + 2;
+        
+        if(pendingMinute >= 60)
+        {
+            newMinute = pendingMinute - 60;
+            newHour = hour + 1;
+        }
+        else
+        {
+            newMinute = pendingMinute;
+            newHour = hour;
+        }
+        
+        for(int i = 0 ; i < orders.size() ; i++)
+        {
+            if(orders.get(i).getOrdersMinute() < newMinute && orders.get(i).getOrdersHour() <= newHour)
+            {
+                
+            }
+        }
+    }**/
+    
+    //Let Customer to View Time Remain of Delivery Order
+    public void ViewTimeRemainder()
+    {
+        
+    }
 }

@@ -326,14 +326,14 @@ public class Assignment {
                     break;
                 }
                 case "6": {
-                    System.out.println("\n\n\n\n\n");
-                    loginStaff = null;
+                    D.AssignFunction(order);
+                    DSList = D.getDeliveryStatus();
                     menu();
                     break;
                 }
                 case "7": {
-                    D.AssignFunction(order);
-                    DSList = D.getDeliveryStatus();
+                    System.out.println("\n\n\n\n\n");
+                    loginStaff = null;
                     menu();
                     break;
                 }

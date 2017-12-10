@@ -898,7 +898,7 @@ public class ModuleDFunction
         
         for(int i = 0 ; i < order.size() ; i++)
         {
-            if(order.get(i).getCustomer().getCustID().equals(cust.getCustID()))
+            if(order.get(i).getCustomer().getCustName().equals(cust.getCustName()))
             {
                 System.out.println("Order ID : " + order.get(i).getOrdersID());
                 if(order.get(i).getOrderStatus().equals("1"))

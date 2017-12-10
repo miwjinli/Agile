@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.Calendar;
 import java.util.Date;
 import ModuleA.ModuleAFunction;
+import ModuleD.ModuleDFunction;
 /**
  *
  * @author ong
@@ -22,7 +23,9 @@ public class ModuleCFunction {
     List<OrderDetail> currentDetail = new ArrayList<>();
     double Subtotal = 0.00;
     List<Food> CurrentFood = new ArrayList<>();
+    private List<DeliveryStatus> DSList = new ArrayList<>();
     private ModuleAFunction A = new ModuleAFunction();
+    private ModuleDFunction D = new ModuleDFunction();
     
     List<Restaurant> restaurant = new ArrayList<>();
     List<Food> food = new ArrayList<>();
@@ -73,8 +76,9 @@ public class ModuleCFunction {
         System.out.println("1. Make Order");
         System.out.println("2. View Order Cart");
         System.out.println("3. Cancel Order");
-        System.out.println("4. Logout");
-        while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3") &&!selection.equals("4")) {
+        System.out.println("4. View Delivery Time Remainder");
+        System.out.println("5. Logout");
+        while (!selection.equals("1") && !selection.equals("2") && !selection.equals("3") &&!selection.equals("4") &&!selection.equals("5")) {
             System.out.print("Option: ");
             selection = s.nextLine();
             
@@ -92,6 +96,10 @@ public class ModuleCFunction {
                     break;
                 }
                 case "4": {
+                    D.ViewTimeRemainder(current, order);
+                    break;
+                }
+                case "5": {
                     System.out.println("\n\n\n\n");
                     break;
                 }
@@ -423,6 +431,10 @@ public class ModuleCFunction {
         };
     }
 
+    public void setDeliveryStatus(List<DeliveryStatus> DSList) {
+        this.DSList = DSList;
+    }
+    
     public void setRestaurant(List<Restaurant> restaurant) {
         this.restaurant = restaurant;
     }

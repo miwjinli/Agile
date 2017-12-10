@@ -71,13 +71,12 @@ public class Assignment {
                     break;
                 }
                 case "4": {
+                    boolean a = A.RestaurantLogin(r);
                     
-                    A.RestaurantLogin(r);
-                    /*
-                    if (a) {
-                        RestaurantMenu(restaurant);
+                    if (a = true) {
+                        menu();
                     }
-                    */
+                    
                     break;
                 }
                 default: {
@@ -336,14 +335,17 @@ public class Assignment {
     }
 
     public void initializeList() {
-        restaurant.add(new Restaurant("RE000001", "Nandos", "Tneh Chee Wei", "asd", "016-6666666", "Setapak", "100", "1234567890"));
-        restaurant.add(new Restaurant("RE000002", "KFC", "Tneh Chee Wai", "asd", "016-6666666", "Wangsa Maju", "200", "1234567890"));
-        food.add(new Food("FM000001", "Chicken Bolognese", 11.50, "Noodles", 'A', restaurant.get(0)));
-        food.add(new Food("FM000002", "Fish Bolognese", 11.50, "Noodles", 'A', restaurant.get(0)));
-        food.add(new Food("FM000003", "Beef Bolognese", 13.50, "Noodles", 'A', restaurant.get(0)));
-        food.add(new Food("FM000004", "Dinner Plate A", 11.50, "Set", 'A', restaurant.get(1)));
-        food.add(new Food("FM000005", "Dinner Plate B", 12.50, "Set", 'A', restaurant.get(1)));
-        food.add(new Food("FM000006", "Dinner Plate C", 13.50, "Set", 'A', restaurant.get(1)));
+        restaurant.add(new Restaurant("RE000001", "Nandos", "Western", 'A', "Tneh Chee Wei", "asd", "016-6666666", "Setapak", "100", "1234567890"));
+        restaurant.add(new Restaurant("RE000002", "KFC", "FastFood", 'N', "Tneh Chee Wai", "asd", "016-6666666", "Wangsa Maju", "200", "1234567890"));
+        food.add(new Food("FM000001", "Chicken Bolognese", 11.50, "Noodles", 'A', restaurant.get(0), 'N'));
+        food.add(new Food("FM000002", "Fish Bolognese", 11.50, "Noodles", 'A', restaurant.get(0), 'N'));
+        food.add(new Food("FM000003", "Beef Bolognese", 13.50, "Noodles", 'A', restaurant.get(0), 'N'));
+        food.add(new Food("FM000004", "Dinner Plate A", 11.50, "Set", 'A', restaurant.get(1), 'N'));
+        food.add(new Food("FM000005", "Dinner Plate B", 12.50, "Set", 'A', restaurant.get(1), 'N'));
+        food.add(new Food("FM000006", "Dinner Plate C", 13.50, "Set", 'A', restaurant.get(1), 'N'));
+        food.add(new Food("FM000007", "Chicken Rice", 9.50, "Rice", 'A', restaurant.get(0), 'Y'));
+        food.add(new Food("FM000008", "Dinner Plate D", 5.50, "Set", 'A', restaurant.get(1), 'Y'));
+        food.add(new Food("FM000009", "Dinner Plate E", 6.50, "Set", 'A', restaurant.get(1), 'Y'));
         customer.add(new Customer("CU000001", "Miw Jin Li", "14,Taman Cantik,53300,Setapak,Kuala Lumpur", "Setapak", "0167897898", "971003355333", "1234567890"));
         customer.add(new Customer("CU000001", "Miw Jin Le", "14,Taman Cantik,53300,Wangsa Maju,Kuala Lumpur", "Wangsa Maju", "0167897899", "970104079999", "1234567890"));
         order.add(new Orders(restaurant.get(0), customer.get(0), "OR000001", 0.00, 0.00, "1", 16, 30, 1, 12, 2017));

@@ -15,15 +15,17 @@ public class Food {
     private double FoodPrice;
     private String FoodType;
     private char FoodAvailability;
+    private char pStatus;
     private Restaurant restaurant;
 
-    public Food(String FoodID, String FoodName, double FoodPrice, String FoodType, char FoodAvailability, Restaurant restaurant) {
+    public Food(String FoodID, String FoodName, double FoodPrice, String FoodType, char FoodAvailability, Restaurant restaurant, char pStatus) {
         this.FoodID = FoodID;
         this.FoodName = FoodName;
         this.FoodPrice = FoodPrice;
         this.FoodType = FoodType;
         this.FoodAvailability = FoodAvailability;
         this.restaurant = restaurant;
+        this.pStatus = pStatus;
     }
 
     public String getFoodName() {
@@ -74,9 +76,17 @@ public class Food {
         this.FoodID = FoodID;
     }
 
+    public char getpStatus(){
+        return pStatus;
+    }
+    
+    public void setpStatus(char pStatus) {
+        this.pStatus = pStatus;
+    }
+
     @Override
     public String toString() {
-        return "Food{" + "FoodID=" + FoodID + ", FoodName=" + FoodName + ", FoodPrice=" + FoodPrice + ", FoodType=" + FoodType + ", FoodAvailability=" + FoodAvailability + ", restaurant=" + restaurant + '}';
+        return "Food{" + "FoodID=" + FoodID + ", FoodName=" + FoodName + ", FoodPrice=" + FoodPrice + ", FoodType=" + FoodType + ", FoodAvailability=" + FoodAvailability + ", restaurant=" + restaurant + ", pStatus=" + pStatus + '}';
     }
     
 }

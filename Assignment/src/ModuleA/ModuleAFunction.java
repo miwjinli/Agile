@@ -35,6 +35,9 @@ public class ModuleAFunction {
         System.out.println("(Please remember the ID for further use.)");
         System.out.print("Restaurant Name: ");
         String rName = sc.nextLine();
+        System.out.print("Restaurant Type: ");
+        String rType = sc.nextLine();
+        char rMenu = 'A';
         System.out.print("Owner Name: ");
         String oName = sc.nextLine();
         System.out.print("Address: ");
@@ -57,7 +60,7 @@ public class ModuleAFunction {
             }
         }
         if (b == true) {
-            Restaurant rest = new Restaurant(restid, rName, oName, add, no, area, latitude, pass);
+            Restaurant rest = new Restaurant(restid, rName, rType, rMenu, oName, add, no, area, latitude, pass);
             restaurant.add(rest);
             System.out.println("Successfully Registered.");
         }
@@ -65,35 +68,43 @@ public class ModuleAFunction {
 
     public boolean RestaurantLogin(Restaurant r) {
         int idcount = 0;
-        boolean password = false;
+        boolean exit = false;
+        int password = 0;
         while (idcount == 0) {
             System.out.println("----------------");            
             System.out.println("Affiliate Login");
             System.out.println("----------------");
-            System.out.print("Restaurant ID: ");
+            System.out.print("Restaurant ID (press E to exit): ");
             String id = sc.nextLine().toUpperCase();
-            for (int i=0;i < restaurant.size();i++) {
-                if (id.equals(restaurant.get(i).getRestaurantID())) {
-                    while (!password) {
-                        System.out.print("Password: ");
-                        String pass = sc.nextLine();
-                        idcount = 1;
-                        if (pass.equals(restaurant.get(i).getPassword())) {
-                            password = true;
-                            System.out.println("Successfully Login");
-                            r = restaurant.get(i);
-                            RestaurantMenu(r);
-                        } else {
-                            System.out.println("Invalid password");
+            if(id.equals("E")){
+                exit = true;
+                return exit;
+            }else{
+                for (int i=0;i < restaurant.size();i++) {
+                    if (id.equals(restaurant.get(i).getRestaurantID())) {
+                        while (password == 0) {
+                            System.out.print("Password: ");
+                            String pass = sc.nextLine();
+                            idcount = 1;
+                            if (pass.equals(restaurant.get(i).getPassword())) {
+                                password = 1;
+                                System.out.println("Successfully Login");
+                                r = restaurant.get(i);
+                                RestaurantMenu(r);
+                            } else {
+                                System.out.println("Invalid password");
+                            }
                         }
                     }
                 }
             }
             if (idcount == 0) {
                 System.out.println("Invalid ID");
+                RestaurantLogin(r);
             }
         }
-        return password;
+        return exit;
+        
     }
     
     public void addFood(Restaurant r){
@@ -112,8 +123,9 @@ public class ModuleAFunction {
         System.out.print("Food Type: ");
         String fType = sc.nextLine();
         char fAval = 'A';
+        char pStatus = 'N';
         
-        Food f = new Food(foodid, fName, price, fType, fAval, r);
+        Food f = new Food(foodid, fName, price, fType, fAval, r, pStatus);
         food.add(f);
         
         System.out.println("Food Successfully Added");
@@ -130,8 +142,10 @@ public class ModuleAFunction {
     public void foodMenu(Restaurant r){
         for(int j=0 ; j<food.size() ; j++){
             if(r.equals(food.get(j).getRestaurant())&&food.get(j).getFoodAvailability()=='A'||food.get(j).getFoodAvailability()=='N'){
-                System.out.println("Food ID: "+food.get(j).getFoodID()+" Food Name: "+food.get(j).getFoodName()+" Food Price: RM"
-                +food.get(j).getFoodPrice()+" Food Availability: "+food.get(j).getFoodAvailability());   
+                System.out.println("Food ID: "+food.get(j).getFoodID()+"\t"+"Food Name: "+food.get(j).getFoodName());
+                System.out.println("Food Price: RM"+food.get(j).getFoodPrice()+"\t"+"Food Availability: "+food.get(j).getFoodAvailability());
+                System.out.println("Promotional Status: "+food.get(j).getpStatus());
+                System.out.println("\n");
             }
         }
     }
@@ -141,7 +155,7 @@ public class ModuleAFunction {
         System.out.println("------------------");
         System.out.println("Update Food Detail");
         System.out.println("------------------");
-        System.out.println("Login as " + r.getRestaurantName() + " Restaurant");
+        System.out.println("Login as " + r.getRestaurantName() + " Restaurant\n");
         foodMenu(r);
         System.out.print("Enter Food ID to update: ");
         String fid = sc.nextLine().toUpperCase();
@@ -152,7 +166,10 @@ public class ModuleAFunction {
                 System.out.println("Food Name: " + food.get(i).getFoodName());
                 System.out.println("Price: RM" + food.get(i).getFoodPrice());
                 System.out.println("Food Type: " + food.get(i).getFoodType());
-                System.out.println("Food Availability: " + food.get(i).getFoodAvailability()+" (A-Available N-Temporary not available)");
+                System.out.println("Food Availability: " + food.get(i).getFoodAvailability()+
+                        " (A-Available N-Temporary not available)");
+                System.out.println("Promotional Status: " + food.get(i).getpStatus()+
+                        " (Y-Under promotion N-Not promotion");
                 Food f = food.get(i);
                 id = true; 
                 updateFood(r,f);
@@ -172,7 +189,8 @@ public class ModuleAFunction {
         System.out.println("1 - Food Name");
         System.out.println("2 - Food Price");
         System.out.println("3 - Food Availability");
-        System.out.println("4 - Back");
+        System.out.println("4 - Promotional Status");
+        System.out.println("0 - Back");
         System.out.print("Option: ");
         int option =sc.nextInt();
         switch(option){
@@ -183,16 +201,28 @@ public class ModuleAFunction {
                 String uName = sc.nextLine();
                 f.setFoodName(uName);
                 System.out.println("Successfully updated");
+                sc.nextLine();
                 RestaurantMenu(r);
                 break;
             }
             case 2:{
+                int t = 1;
                 System.out.println("Current Food Price: RM" + f.getFoodPrice());
+                do{
                 System.out.print("Updated Food Price: RM");
+                try{
                 double uPrice = sc.nextDouble();
                 f.setFoodPrice(uPrice);
                 System.out.println("Successfully updated");
+                sc.nextLine();
                 RestaurantMenu(r);
+                t = 1;
+                }catch(Exception e){
+                    System.out.println("Invalid input");
+                    sc.nextLine();
+                    t = 0;
+                }
+                }while(t == 0);
                 break;
             }
             case 3:{
@@ -207,6 +237,7 @@ public class ModuleAFunction {
                             case 'N':{
                             f.setFoodAvailability(aval);
                             a=1;
+                            sc.nextLine();
                             RestaurantMenu(r);
                             break;
                         }
@@ -219,6 +250,31 @@ public class ModuleAFunction {
                 break;
             }
             case 4:{
+                int a = 0;
+                System.out.println("Current Promotional Status: "+ f.getpStatus());
+                System.out.println("Y-Under promotion N-Not promotion");
+                while(a==0){
+                    System.out.print("Updated Promotional Status: ");
+                    char pstat = Character.toUpperCase(sc.next().charAt(0));
+                    switch(pstat){
+                        case 'Y':
+                        case 'N':{
+                            f.setpStatus(pstat);
+                            a=1;
+                            sc.nextLine();
+                            RestaurantMenu(r);
+                            break;
+                        }
+                        default:{
+                            System.out.println("Invalid Input");
+                            a = 0;
+                        }
+                    }
+                }
+                break;
+            }
+            case 0:{
+                sc.nextLine();
                 RestaurantMenu(r);
                 break;
             }
@@ -232,7 +288,7 @@ public class ModuleAFunction {
         int f=0;
         System.out.println("----------------");
         System.out.println("Delete Food Menu");
-        System.out.println("----------------");
+        System.out.println("----------------\n");
         foodMenu(r);
         System.out.println("Which one you wish to delete");
         System.out.print("Enter Food ID to delete: ");
@@ -271,11 +327,134 @@ public class ModuleAFunction {
         
     }
     
+    public void SelectShowFirstMenu(Restaurant r){
+        int check = 0;
+        System.out.println("----------------------");
+        System.out.println("Select Show First Menu");
+        System.out.println("----------------------\n");
+        
+        System.out.println("Please select which you want to show first.");
+        System.out.println("A. Show as Normal");
+        System.out.println("N. Show Newest Items First");
+        System.out.println("P. Show Promotional Items First\n");
+        
+        System.out.println("Current Showed Menu: " + r.getRMenu());
+        System.out.println("(A-Show as Normal N-Newest Items First P-Promotional Items First)");
+        do{
+        System.out.print("Option: ");
+        char select = Character.toUpperCase(sc.next().charAt(0));
+        switch(select){
+            case 'A':{
+                System.out.println("Successful Changed.");
+                char sf = 'A';
+                r.setRMenu(sf);
+                check=1;
+                RestaurantMenu(r);
+                break;
+            }
+            case 'N':{
+                System.out.println("Successful Changed.");
+                char sf = 'N';
+                r.setRMenu(sf);
+                check=1;
+                RestaurantMenu(r);
+                break;
+            }
+            case 'P':{
+                System.out.println("Successful Changed.");
+                char sf = 'P';
+                r.setRMenu(sf);
+                check=1;
+                RestaurantMenu(r);
+                break;
+            }
+            default:{
+                System.out.println("Invalid input.");
+                check=0;
+            }
+        }
+        }while(check==0);
+ 
+    }
+    
+    public void showFoodMenu(Restaurant r1, List<Food> food){
+        char rMenu = r1.getRMenu();
+        switch(rMenu){
+            case 'A':{
+                showMenu(r1, food);
+                break;
+            }
+            case 'N':{
+                showNewest(r1, food);
+                break;
+            }
+            case 'P':{
+                showPromotional(r1, food);
+                break;
+            }
+        }
+    }
+    
+    public void showMenu(Restaurant r1, List<Food> food){
+        System.out.println("---------");
+        System.out.println("Food Menu");
+        System.out.println("---------");
+        for(int j=0; j<food.size();j++){
+            
+            if(r1.getRestaurantName().equals(food.get(j).getRestaurant().getRestaurantName())&&food.get(j).getFoodAvailability()=='A'){
+                System.out.println("Food ID: "+food.get(j).getFoodID()+"\t"+"Food Name: "+food.get(j).getFoodName());      
+                System.out.println("Food Price: RM"+food.get(j).getFoodPrice()+"\t"+"Food Type: "+food.get(j).getFoodType()+"\n");
+            }
+
+        }
+    }
+    
+    public void showNewest(Restaurant r1, List<Food> food){
+        System.out.println("---------");
+        System.out.println("Food Menu");
+        System.out.println("---------");
+        System.out.println("From Newest Menu to Oldest Menu");
+        for(int j=food.size()-1; j>=0;j--){
+            if(r1.getRestaurantName().equals(food.get(j).getRestaurant().getRestaurantName())&&food.get(j).getFoodAvailability()=='A'){
+                System.out.println("Food ID: "+food.get(j).getFoodID()+"\t"+"Food Name: "+food.get(j).getFoodName());      
+                System.out.println("Food Price: RM"+food.get(j).getFoodPrice()+"\t"+"Food Type: "+food.get(j).getFoodType()+"\n");
+            }
+
+        }
+    }
+    
+    public void showPromotional(Restaurant r1, List<Food> food){
+        System.out.println("-----------------------");
+        System.out.println("Food Under Promotion!!!");
+        System.out.println("-----------------------\n");
+        for(int j=0 ; j<food.size() ; j++){
+            if(r1.getRestaurantName().equals(food.get(j).getRestaurant().getRestaurantName())&&food.get(j).getFoodAvailability()=='A'&&food.get(j).getpStatus()=='Y'){
+                System.out.println("Food ID: "+food.get(j).getFoodID()+"\t"+"Food Name: "+food.get(j).getFoodName());      
+                System.out.println("Food Price: RM"+food.get(j).getFoodPrice()+"\t"+"Food Type: "+food.get(j).getFoodType()+"\n");
+            }
+        }
+        System.out.println("---------");
+        System.out.println("Food Menu");
+        System.out.println("---------\n");
+        for(int j=0 ; j<food.size() ; j++){
+            if((r1.getRestaurantID()).equals(food.get(j).getRestaurant().getRestaurantID())&&food.get(j).getFoodAvailability()=='A'&&food.get(j).getpStatus()=='N'){
+                System.out.println("Food ID: "+food.get(j).getFoodID()+"\t"+"Food Name: "+food.get(j).getFoodName());      
+                System.out.println("Food Price: RM"+food.get(j).getFoodPrice()+"\t"+"Food Type: "+food.get(j).getFoodType()+"\n");
+            }
+        }
+        
+    }
+    
     public void RestaurantMenu(Restaurant r) {
         Scanner sc = new Scanner(System.in);
+        System.out.println("---------------");
+        System.out.println("Restaurant Menu");
+        System.out.println("---------------");
         System.out.println("1. Add New Menu Items");
         System.out.println("2. Update Menu Item Details");
         System.out.println("3. Remove Menu Items");
+        System.out.println("4. Select Show First Menu");
+        System.out.println("5. Show Menu");
         System.out.println("0. Log Out");
 
         System.out.print("Option: ");
@@ -295,10 +474,18 @@ public class ModuleAFunction {
                 deleteFood(r);
                 break;
             }
+            case 4: {
+                SelectShowFirstMenu(r);
+                break;
+            }
+            case 5:{
+                showFoodMenu(r, food);
+                sc.nextLine();
+                RestaurantMenu(r);
+                break;
+            }
             case 0: {
                 System.out.println("Successfully Logout");
-                //menu();
-                RestaurantLogin(r);
                 break;
             }
             default: {

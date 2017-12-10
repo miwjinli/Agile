@@ -71,13 +71,12 @@ public class Assignment {
                     break;
                 }
                 case "4": {
+                    boolean a = A.RestaurantLogin(r);
                     
-                    A.RestaurantLogin(r);
-                    /*
-                    if (a) {
-                        RestaurantMenu(restaurant);
+                    if (a = true) {
+                        menu();
                     }
-                    */
+                    
                     break;
                 }
                 default: {
@@ -336,31 +335,37 @@ public class Assignment {
     }
 
     public void initializeList() {
-        restaurant.add(new Restaurant("RE000001", "Nandos", "Tneh Chee Wei", "asd", "016-6666666", "Setapak", "100", "1234567890"));
-        restaurant.add(new Restaurant("RE000002", "KFC", "Tneh Chee Wai", "asd", "016-6666666", "Wangsa Maju", "200", "1234567890"));
-        food.add(new Food("FM000001", "Chicken Bolognese", 11.50, "Noodles", 'A', restaurant.get(0)));
-        food.add(new Food("FM000002", "Fish Bolognese", 11.50, "Noodles", 'A', restaurant.get(0)));
-        food.add(new Food("FM000003", "Beef Bolognese", 13.50, "Noodles", 'A', restaurant.get(0)));
-        food.add(new Food("FM000004", "Dinner Plate A", 11.50, "Set", 'A', restaurant.get(1)));
-        food.add(new Food("FM000005", "Dinner Plate B", 12.50, "Set", 'A', restaurant.get(1)));
-        food.add(new Food("FM000006", "Dinner Plate C", 13.50, "Set", 'A', restaurant.get(1)));
+        restaurant.add(new Restaurant("RE000001", "Nandos", "Western", 'A', "Tneh Chee Wei", "asd", "016-6666666", "Setapak", "100", "1234567890"));
+        restaurant.add(new Restaurant("RE000002", "KFC", "FastFood", 'N', "Tneh Chee Wai", "asd", "016-6666666", "Wangsa Maju", "200", "1234567890"));
+        food.add(new Food("FM000001", "Chicken Bolognese", 11.50, "Noodles", 'A', restaurant.get(0), 'N'));
+        food.add(new Food("FM000002", "Fish Bolognese", 11.50, "Noodles", 'A', restaurant.get(0), 'N'));
+        food.add(new Food("FM000003", "Beef Bolognese", 13.50, "Noodles", 'A', restaurant.get(0), 'N'));
+        food.add(new Food("FM000004", "Dinner Plate A", 11.50, "Set", 'A', restaurant.get(1), 'N'));
+        food.add(new Food("FM000005", "Dinner Plate B", 12.50, "Set", 'A', restaurant.get(1), 'N'));
+        food.add(new Food("FM000006", "Dinner Plate C", 13.50, "Set", 'A', restaurant.get(1), 'N'));
+        food.add(new Food("FM000007", "Chicken Rice", 9.50, "Rice", 'A', restaurant.get(0), 'Y'));
+        food.add(new Food("FM000008", "Dinner Plate D", 5.50, "Set", 'A', restaurant.get(1), 'Y'));
+        food.add(new Food("FM000009", "Dinner Plate E", 6.50, "Set", 'A', restaurant.get(1), 'Y'));
         customer.add(new Customer("CU000001", "Miw Jin Li", "14,Taman Cantik,53300,Setapak,Kuala Lumpur", "Setapak", "0167897898", "971003355333", "1234567890"));
         customer.add(new Customer("CU000001", "Miw Jin Le", "14,Taman Cantik,53300,Wangsa Maju,Kuala Lumpur", "Wangsa Maju", "0167897899", "970104079999", "1234567890"));
-        order.add(new Orders(restaurant.get(0), customer.get(0), "OR000001", 0.00, 0.00, "1", 16, 30, 1, 12, 2017));
-        order.add(new Orders(restaurant.get(1), customer.get(1), "OR000002", 0.00, 0.00, "1", 18, 10, 1, 12, 2017));
+        order.add(new Orders(restaurant.get(0), customer.get(0), "OR000001", 0.00, 0.00, "1", 0, 04, 1, 12, 2017));
+        order.add(new Orders(restaurant.get(1), customer.get(1), "OR000002", 0.00, 0.00, "1", 0, 20, 1, 12, 2017));
         orderdetail.add(new OrderDetail(order.get(0), food.get(0), 1));
         DMList.add(new DeliveryMan(1, "Not Available", "None", "DM000001", "123456", "Ong Yi Jun", "971009-02-5213", "012-3456789", 'M', "2345 Lorong 3 Jalan ABC, 51020 KL", "OngYiJun@gmail.com", "Delivery Man", "Employed", 3500, 3500));
+        DMList.add(new DeliveryMan(1, "Available", "None", "DM000002", "123456", "Chun Leong", "921005-05-5225", "014-5959595", 'M', "5 Lorong 9 Jalan Long, 51020 Selangor", "ChunLeong@gmail.com", "Delivery Man", "Employed", 3500, 3500));
         B.setDeliveryMen(DMList);
         HRList.add(new HR(1, "HR000001", "123456", "Ong Ong Jun", "970707-07-0707", "010-2255533", 'M', "Jalan Prima Setapak, KL", "OngOngJun@hotmail.com", "HR", "Employed", 3500, 3750));
         B.setHRList(HRList);
         adminList.add(new Admin(0, "AD000001", "123456", "ABC", "123456678", "012-345678", 'M', "22A, Deaman Ap, KL", "E@e.com", "Admin", "Employed", 0, 0));
-        DSList.add(new DeliveryStatus(null, null, null, null, "Accepted By Delivery Man"));
-        DSList.get(0).setOrder(order.get(0));
-        DSList.get(0).setDM(DMList.get(0));
+        //DSList.add(new DeliveryStatus(null, null, null, null, "Accepted By Delivery Man"));
+        //DSList.get(0).setOrder(order.get(0));
+        //DSList.get(0).setDM(DMList.get(0));
         java.util.Calendar today = java.util.Calendar.getInstance();
         java.text.SimpleDateFormat SDF = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String date = SDF.format(today.getTime());
         WSList.add(new WorkStatus("WS000001", today, today, 200, 4, DMList.get(0)));
+        D.setDeliveryStatus(DSList);
+        D.setDeliveryMen(DMList);
         B.setWSList(WSList);
         B.setAdminList(adminList);
         B.setDSList(DSList);

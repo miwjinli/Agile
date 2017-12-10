@@ -23,7 +23,7 @@ public class DeliveryStatus {
 
     public DeliveryStatus() {
     }
-
+    
     public DeliveryStatus(Calendar AssignedDate, Calendar AssignedTime, Calendar DeliveredDate, Calendar DeliveredTime, String DeliveryStatus) {
         this.AssignedDate = AssignedDate;
         this.AssignedTime = AssignedTime;

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Calendar;
 import java.util.Date;
+import ModuleA.ModuleAFunction;
 /**
  *
  * @author ong
@@ -21,6 +22,7 @@ public class ModuleCFunction {
     List<OrderDetail> currentDetail = new ArrayList<>();
     double Subtotal = 0.00;
     List<Food> CurrentFood = new ArrayList<>();
+    private ModuleAFunction A = new ModuleAFunction();
     
     List<Restaurant> restaurant = new ArrayList<>();
     List<Food> food = new ArrayList<>();
@@ -170,13 +172,9 @@ public class ModuleCFunction {
         currentOrder.setSubtotal(Subtotal);
         currentOrder.setTotal(Subtotal*1.06);
         System.out.println("\n\nBelow are the foods provided by "+restaurant.get(resIndex).getRestaurantName());
-        System.out.println("-------------------------------------------");
-        for(int k=0 ; k<CurrentFood.size() ; k++){
-            System.out.println("Food ID->"+CurrentFood.get(k).getFoodID());
-            System.out.println("Food Name->"+CurrentFood.get(k).getFoodName());
-            System.out.printf("Food Price-> RM%.2f\n",CurrentFood.get(k).getFoodPrice());
-            System.out.println("---------------------------------");
-        }
+        
+        A.showFoodMenu(restaurant.get(resIndex), food);
+        
         while(!foodid.equals("C")&&!foodid.equals("B")&&!foodid.equals("V")&&checkout==false){
             System.out.println("Please Enter the Food ID that You Want");
             System.out.println("(Press C to confirm, B to back and cancel, V to view cart):");

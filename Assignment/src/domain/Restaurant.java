@@ -12,6 +12,8 @@ package domain;
 public class Restaurant {
     private String RestaurantID;
     private String RestaurantName;
+    private String RestaurantType;
+    private char rMenu;
     private String OwnerName;
     private String Address;
     private String ContactNo;
@@ -19,9 +21,11 @@ public class Restaurant {
     private String Latitude;
     private String Password;
 
-    public Restaurant(String RestaurantID, String RestaurantName, String OwnerName, String Address, String ContactNo, String Area, String Latitude, String Password) {
+    public Restaurant(String RestaurantID, String RestaurantName, String RestaurantType, char rMenu, String OwnerName, String Address, String ContactNo, String Area, String Latitude, String Password) {
         this.RestaurantID = RestaurantID;
         this.RestaurantName = RestaurantName;
+        this.RestaurantType = RestaurantType;
+        this.rMenu=rMenu;
         this.OwnerName = OwnerName;
         this.Address = Address;
         this.ContactNo = ContactNo;
@@ -36,6 +40,14 @@ public class Restaurant {
 
     public void setRestaurantName(String RestaurantName) {
         this.RestaurantName = RestaurantName;
+    }
+    
+    public String getRestaurantType() {
+        return RestaurantType;
+    }
+
+    public void setRestaurantType(String RestaurantType) {
+        this.RestaurantType = RestaurantType;
     }
 
     public String getOwnerName() {
@@ -93,10 +105,18 @@ public class Restaurant {
     public void setRestaurantID(String RestaurantID) {
         this.RestaurantID = RestaurantID;
     }
+    
+    public char getRMenu(){
+        return rMenu;
+    }
+    
+    public void setRMenu(char rMenu){
+        this.rMenu = rMenu;
+    }
 
     @Override
     public String toString() {
-        return "Restaurant{" + "RestaurantID=" + RestaurantID + ", RestaurantName=" + RestaurantName + ", OwnerName=" + OwnerName + ", Address=" + Address + ", ContactNo=" + ContactNo + ", Area=" + Area + ", Latitude=" + Latitude + ", Password=" + Password + '}';
+        return "Restaurant{" + "RestaurantID=" + RestaurantID + ", RestaurantName=" + RestaurantName + ", RestaurantType=" + RestaurantType +  ", rMenu=" + rMenu + ", OwnerName=" + OwnerName + ", Address=" + Address + ", ContactNo=" + ContactNo + ", Area=" + Area + ", Latitude=" + Latitude + ", Password=" + Password + '}';
     }
 
 }

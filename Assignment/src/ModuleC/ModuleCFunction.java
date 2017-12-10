@@ -34,9 +34,9 @@ public class ModuleCFunction {
     public void CustomerLogin(){
         String name, password;
         int check = 0;
-        System.out.println("--------------");
-        System.out.println("Customer Login");
-        System.out.println("--------------");
+        System.out.println("****************");
+        System.out.println("*Customer Login*");
+        System.out.println("****************");
         System.out.print("Name:");
         name = s.nextLine();
         name = name.toUpperCase();
@@ -64,9 +64,9 @@ public class ModuleCFunction {
     
     public void CustomerMenu(Customer current){
         String selection = "0";
-        System.out.println("--------------");
-        System.out.println("Customer Menu");
-        System.out.println("--------------");
+        System.out.println("***************");
+        System.out.println("*Customer Menu*");
+        System.out.println("***************");
         System.out.println("Please select the below option");
         System.out.println("1. Make Order");
         System.out.println("2. View Order Cart");
@@ -120,9 +120,9 @@ public class ModuleCFunction {
         boolean find = false;
         int resIndex=0;
         String selection = "0";
-        System.out.println("--------------");
-        System.out.println("Restaurant List");
-        System.out.println("--------------");
+        System.out.println("\n\n*****************");
+        System.out.println("*Restaurant List*");
+        System.out.println("*****************");
         System.out.println("Please select the below option");
         for(int i=0 ; i<restaurant.size() ; i++){
             System.out.println((i+1)+". "+restaurant.get(i).getRestaurantName());
@@ -167,9 +167,9 @@ public class ModuleCFunction {
         currentOrder.setOrdersMonth(0);
         currentOrder.setOrdersYear(0);
         currentOrder.setRestaurant(restaurant.get(resIndex));
-        currentOrder.setSubtotal(0.00);
-        currentOrder.setTotal(0.00);
-        System.out.println("Below are the foods provided by "+restaurant.get(resIndex).getRestaurantName());
+        currentOrder.setSubtotal(Subtotal);
+        currentOrder.setTotal(Subtotal*1.06);
+        System.out.println("\n\nBelow are the foods provided by "+restaurant.get(resIndex).getRestaurantName());
         System.out.println("-------------------------------------------");
         for(int k=0 ; k<CurrentFood.size() ; k++){
             System.out.println("Food ID->"+CurrentFood.get(k).getFoodID());
@@ -177,7 +177,7 @@ public class ModuleCFunction {
             System.out.printf("Food Price-> RM%.2f\n",CurrentFood.get(k).getFoodPrice());
             System.out.println("---------------------------------");
         }
-        while(!foodid.equals("C")&&!foodid.equals("B")&&checkout==false){
+        while(!foodid.equals("C")&&!foodid.equals("B")&&!foodid.equals("V")&&checkout==false){
             System.out.println("Please Enter the Food ID that You Want");
             System.out.println("(Press C to confirm, B to back and cancel, V to view cart):");
             foodid = s.nextLine();
@@ -194,8 +194,19 @@ public class ModuleCFunction {
                 currentDetail.clear();
                 Subtotal = 0.00;
                 CurrentFood.clear();
-                SelectRestaurant(current);
+                CustomerMenu(current);
                 break;
+            }
+            else if(foodid.equals("V")){
+                boolean again = ViewCart(current);
+                if(again){
+                    makeOrder(current,resIndex);
+                    break;
+                }
+                else{
+                    CustomerMenu(current);
+                    break;
+                }
             }
             else{
                 //check whether food id is exist or not
@@ -239,9 +250,66 @@ public class ModuleCFunction {
         }
     }
     
+    public boolean ViewCart(Customer current){
+        String selection = "";
+        boolean again = true;
+        if(currentDetail.isEmpty()){
+            System.out.println("\n\nYou Do Not Order Any Food Yet.");
+            System.out.println("Press Enter To Back.");
+            s.nextLine();
+        }
+        else{
+            System.out.println("\n\nBelow Are The Foods You Have Ordered Inside Your Cart");
+            System.out.println("------------------------------------");
+            for(int i=0 ; i<currentDetail.size() ; i++){
+                System.out.println("Food ID: "+currentDetail.get(i).getFood().getFoodID());
+                System.out.println("Food Name: "+currentDetail.get(i).getFood().getFoodName());
+                System.out.println("Quantity: "+currentDetail.get(i).getQuantity());
+            }
+            System.out.println("------------------------------------");
+            System.out.println("\nPlease Select Your Selection");
+            System.out.println("1. Edit Food");
+            System.out.println("2. Delete Food");
+            System.out.println("3. Cancel Order");
+            System.out.println("4. Back");
+            while(!selection.equals("1") && !selection.equals("2") && !selection.equals("3")){
+                System.out.print("Selection: ");
+                selection = s.nextLine();
+                switch(selection){
+                    case "1":{
+                        System.out.println("Edit!");
+                        break;
+                    }
+                    case "2":{
+                        System.out.println("Delete");
+                        break;
+                    }
+                    case "3":{
+                        currentOrder = new Orders();
+                        currentDetail.clear();
+                        Subtotal = 0.00;
+                        CurrentFood.clear();
+                        System.out.println("\nCancel Order Successful\n\n");
+                        again = false;
+                        break;
+                    }
+                    case "4":{
+                        break;
+                    }
+                    default:{
+                        System.out.println("Please Enter Again");
+                        break;
+                    }
+                }
+            }
+        }
+        return again;
+    }
+    
     public boolean Confirmation(Customer current){
         String selection = "";
-        System.out.println("Below Are The Foods You Have Ordered");
+        double roundoff = 0.00, total = 0.00;
+        System.out.println("\n\nBelow Are The Foods You Have Ordered");
         System.out.println("------------------------------------");
         for(int i=0 ; i<currentDetail.size() ; i++){
             System.out.println("Food ID: "+currentDetail.get(i).getFood().getFoodID());
@@ -250,8 +318,9 @@ public class ModuleCFunction {
         }
         System.out.println("------------------------------------");
         System.out.printf("Subtotal: RM%.2f\n",currentOrder.getSubtotal());
+        System.out.printf("GST: RM%.2f\n",(currentOrder.getSubtotal()*0.06));
         System.out.printf("Total: RM%.2f\n",(currentOrder.getSubtotal()*1.06));
-        System.out.println("Are You Sure Want To CheckOut?");
+        System.out.println("\n\nAre You Sure Want To CheckOut?");
         System.out.println("1. Yes");
         System.out.println("2. Back To Food Selection");
         while(!selection.equals("1") && !selection.equals("2")){
@@ -275,12 +344,23 @@ public class ModuleCFunction {
                     currentOrder.setOrdersYear(year);
                     currentOrder.setSubtotal(Subtotal);
                     currentOrder.setTotal(Subtotal*1.06);
-                    currentOrder.setOrderStatus("Completed");
+                    currentOrder.setOrderStatus("1");//change to 1
                     order.add(currentOrder);
                     for(int i=0 ; i<currentDetail.size() ; i++){
                         orderdetail.add(currentDetail.get(i));
                     }
-                    for(int k=0 ; k<order.size() ; k++){
+                    System.out.println("\nThank You For Your Order.");
+                    System.out.println("You Have Order The Following Items.");
+                    System.out.println("-----------------------------------");
+                    for(int h=0;h<currentDetail.size();h++){
+                        System.out.println("Food Name: "+currentDetail.get(h).getFood().getFoodName());
+                        System.out.println("Food ID: "+currentDetail.get(h).getFood().getFoodID());
+                        System.out.println("Quantity: "+currentDetail.get(h).getQuantity());
+                    }
+                    System.out.printf("Subtotal: RM%.2f\n",currentOrder.getSubtotal());
+                    System.out.printf("GST: RM%.2f\n",(currentOrder.getSubtotal()*0.06));
+                    System.out.printf("Total: RM%.2f\n",currentOrder.getTotal());
+                    /*for(int k=0 ; k<order.size() ; k++){
                         System.out.println("---------------------------------");
                         System.out.println("Order Date Time->"+order.get(k).DatetoString());
                         System.out.println("---------------------------------");
@@ -294,7 +374,7 @@ public class ModuleCFunction {
                         System.out.printf("Subtotal->RM%.2f\n",order.get(k).getSubtotal());
                         System.out.printf("Total->RM%.2f\n",order.get(k).getTotal());
                         System.out.println("-----------------------------");
-                    }
+                    }*/
                     currentOrder = new Orders();
                     currentDetail.clear();
                     Subtotal= 0.00;
@@ -316,22 +396,33 @@ public class ModuleCFunction {
     public void retrieveCustomer(){
         String contact = "";
         boolean check = false;
-        System.out.println("Please Enter The Contact Number :");
-        contact = s.nextLine();
-        for(int i=0 ; i<customer.size(); i++){
-            if(contact.equals(customer.get(i).getCustTelNo())){
-                System.out.println("\n\nPersonal Information");
-                System.out.println("---------------------------");
-                System.out.println("Name: "+customer.get(i).getCustName());
-                System.out.println("Address: "+customer.get(i).getCustAddress());
-                System.out.println("Area: "+customer.get(i).getCustArea());
-                System.out.println("IC Number: "+customer.get(i).getCustIC());
-                check=true;
+        System.out.println("\n\n***************************");
+        System.out.println("*Retrieve Customer Details*");
+        System.out.println("***************************");
+        while(check==false){
+            System.out.println("Please Enter The Contact Number :");
+            while (s.hasNext("[A-Za-z]+")) {
+                System.out.println("Please Enter The Contact Number in Correct Format.");
+                s.nextLine();
             }
-        }
-        if(check==false){
-            System.out.println("This Contact Number is Not Exist in Customer Database");
-        }
+            contact = s.nextLine();
+            for(int i=0 ; i<customer.size(); i++){
+                if(contact.equals(customer.get(i).getCustTelNo())){
+                    System.out.println("\n\nPersonal Information");
+                    System.out.println("---------------------------");
+                    System.out.println("Name: "+customer.get(i).getCustName());
+                    System.out.println("Address: "+customer.get(i).getCustAddress());
+                    System.out.println("Area: "+customer.get(i).getCustArea());
+                    System.out.println("IC Number: "+customer.get(i).getCustIC());
+                    System.out.println("\n");
+                    check=true;
+                }
+            }
+            if(check==false){
+                System.out.println("This Contact Number is Not Exist in Customer Database");
+                s.nextLine();
+            }
+        };
     }
 
     public void setRestaurant(List<Restaurant> restaurant) {

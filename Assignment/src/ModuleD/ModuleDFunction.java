@@ -309,7 +309,7 @@ public class ModuleDFunction
         }
     }
     
-    //let DeliveryMan to view to undeliver order schedule
+    //let DeliveryMan to view to undeliver order schedule...
     public void ViewDeliverSchedule(List<Customer> customer, List<DeliveryMan> deliveryMen, List<Orders> orders, List<Restaurant> restaurant, String staffID)
     {
         Date date = new Date();
@@ -327,7 +327,7 @@ public class ModuleDFunction
             {
                 System.out.println("ID : " + deliveryMen.get(i).getStaffID());
                 System.out.println("Name : " + deliveryMen.get(i).getStaffName());
-                System.out.println("\nDeliver Schedule");
+                System.out.println("\nDeliver Schedule ");
                 System.out.println("Date : " + day + "/" + month + "/" + year);
                 System.out.println("Time : " + hour + ":" + minute);
                 System.out.println("******************************************");
@@ -341,16 +341,22 @@ public class ModuleDFunction
                             if(orders.get(j).getOrdersMinute() >= minute)
                             {
                                 System.out.println("\nOrder ID : " + orders.get(j).getOrdersID());
+                                System.out.println("Order Date : " + orders.get(j).getOrdersDay() + "/" + orders.get(j).getOrdersMonth() + "/" + orders.get(j).getOrdersYear());
+                                System.out.println("Order Time : " + orders.get(j).getOrdersHour() + ":" + orders.get(j).getOrdersMinute());
                                 System.out.println("Restaurant : " + orders.get(j).getRestaurant().getRestaurantName());
                                 System.out.println("Customer Name : " + orders.get(j).getCustomer().getCustName());
+                                System.out.println("Customer Hp : " + orders.get(j).getCustomer().getCustTelNo());
                                 System.out.println("Customer Address : " + orders.get(j).getCustomer().getCustAddress());
                             }
                         }
                         else if(orders.get(j).getOrdersHour() > hour)
                         {
                             System.out.println("\nOrder ID : " + orders.get(j).getOrdersID());
+                            System.out.println("Order Date : " + orders.get(j).getOrdersDay() + "/" + orders.get(j).getOrdersMonth() + "/" + orders.get(j).getOrdersYear());
+                            System.out.println("Order Time : " + orders.get(j).getOrdersHour() + ":" + orders.get(j).getOrdersMinute());
                             System.out.println("Restaurant : " + orders.get(j).getRestaurant().getRestaurantName());
                             System.out.println("Customer Name : " + orders.get(j).getCustomer().getCustName());
+                            System.out.println("Customer Hp : " + orders.get(j).getCustomer().getCustTelNo());
                             System.out.println("Customer Address : " + orders.get(j).getCustomer().getCustAddress());
                         }
                         else
@@ -369,5 +375,47 @@ public class ModuleDFunction
                 System.out.println("No such ID\n");
             }
         }
+    }
+    
+    /**Assign Deliverymen to deliver order
+    public void AssignDeliverymen(List<DeliveryMan> deliveryMen, List<Orders> orders)
+    {
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int hour = cal.get(Calendar.HOUR);
+        int minute = cal.get(Calendar.MINUTE);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH)+1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        
+        int newHour = -99;
+        int newMinute = -99;
+        int pendingMinute = minute + 2;
+        
+        if(pendingMinute >= 60)
+        {
+            newMinute = pendingMinute - 60;
+            newHour = hour + 1;
+        }
+        else
+        {
+            newMinute = pendingMinute;
+            newHour = hour;
+        }
+        
+        for(int i = 0 ; i < orders.size() ; i++)
+        {
+            if(orders.get(i).getOrdersMinute() < newMinute && orders.get(i).getOrdersHour() <= newHour)
+            {
+                
+            }
+        }
+    }**/
+    
+    //Let Customer to View Time Remain of Delivery Order
+    public void ViewTimeRemainder()
+    {
+        
     }
 }

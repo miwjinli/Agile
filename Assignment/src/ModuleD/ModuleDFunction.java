@@ -21,6 +21,9 @@ public class ModuleDFunction
     private List<DeliveryMan> deliveryMen = new ArrayList<>();
     private List<WorkStatus> workStatus = new ArrayList<>();
     private List<DeliveryStatus> DSList = new ArrayList<>();
+    private List<Customer> CustList = new ArrayList<>();
+    private List<Orders> orders = new ArrayList<>();
+    
     Scanner s = new Scanner(System.in);
     
     public List<DeliveryMan> getDeliveryMen() {
@@ -37,6 +40,22 @@ public class ModuleDFunction
 
     public void setDeliveryStatus(List<DeliveryStatus> DSList) {
         this.DSList = DSList;
+    }
+    
+    public List<Customer> getCustomer() {
+        return CustList;
+    }
+
+    public void setCustomer(List<Customer> CustList) {
+        this.CustList = CustList;
+    }
+    
+    public List<Orders> getOrder() {
+        return orders;
+    }
+
+    public void setOrder(List<Orders> order) {
+        this.orders = order;
     }
     
     public ModuleDFunction()
@@ -328,7 +347,7 @@ public class ModuleDFunction
         }
     }
     
-    //let DeliveryMan to view to undeliver order schedule...
+    //let DeliveryMan to view to undeliver order schedule...(logic error)
     public void ViewDeliverSchedule(List<Customer> customer, List<DeliveryMan> deliveryMen, List<Orders> orders, List<Restaurant> restaurant, String staffID)
     {
         Date date = new Date();
@@ -466,7 +485,7 @@ public class ModuleDFunction
 
                 do
                 {
-                    System.out.println("Any Deliverymen to Assign ?");
+                    System.out.println("\nAny Deliverymen to Assign ?");
                     System.out.print("1. Yes\t2. No\nOption : ");
                     choice = s.nextInt();
 
@@ -521,6 +540,7 @@ public class ModuleDFunction
         int newHour;
         int newMinute;
         int pendingMinute;
+        int looping = 0;
         boolean check = false;
         
         for(int i = 0 ; i < orders.size() ; i++)
@@ -534,19 +554,23 @@ public class ModuleDFunction
                     newMinute = pendingMinute - 60;
                     newHour = orders.get(i).getOrdersHour() + 1;
                     check = ComparePendingTime(orders.get(i), newHour, newMinute);
+                    looping++;
                 }
                 else
                 {
                     newMinute = pendingMinute;
                     newHour = orders.get(i).getOrdersHour();
                     check = ComparePendingTime(orders.get(i), newHour, newMinute);
+                    looping++;
                 }
             }
-            else
-            {
-                check = false;
-            }
         }
+        
+        if(looping == 0)
+        {
+            check = false;
+        }
+        
         return check;
     }
     
@@ -582,12 +606,11 @@ public class ModuleDFunction
     
     public void AssignDeliveryMen(Orders orders)
     {
+        Calendar cal = Calendar.getInstance();
         int loop = 1;
         boolean DMAvailableList = false;
         String DeliveryMenStatus = "";
         String DeliveryMenID;
-        
-        Calendar cal = Calendar.getInstance();
         
         for(int i = 0 ; i < deliveryMen.size() ; i++)
         {
@@ -595,7 +618,7 @@ public class ModuleDFunction
             {
                 if(loop == 1)
                 {
-                    DeliveryMenStatus = "Delivery";
+                    DeliveryMenStatus = "Deliver";
                     System.out.println("\nCurrent available Deliverymen.");
                     System.out.println("***********************************************************");
                     System.out.println("Staff ID\tStaff Name\tStatus");
@@ -620,17 +643,17 @@ public class ModuleDFunction
             
             for(int i = 0 ; i < deliveryMen.size() ; i++)
             {
-                if(deliveryMen.get(i).getCurrentAvailable().equals("Not Available"))
+                if(deliveryMen.get(i).getCurrentAvailable().equals("Deliver"))
                 {
                     if(loop == 1)
                     {
-                        DeliveryMenStatus = "Delivery";
+                        DeliveryMenStatus = "Deliver";
                         System.out.println("\nNow do not have any available Deliverymen.");
                         System.out.println("***********************************************************");
-                        System.out.println("Staff ID\tStaff Name\tStatus\t\tTime Remain");
+                        System.out.println("Staff ID\tStaff Name\tStatus");
                     }
 
-                    System.out.println(deliveryMen.get(i).getStaffID() + "\t" + deliveryMen.get(i).getStaffName() + "\t" + deliveryMen.get(i).getCurrentAvailable() + "\tTime");
+                    System.out.println(deliveryMen.get(i).getStaffID() + "\t" + deliveryMen.get(i).getStaffName() + "\t" + deliveryMen.get(i).getCurrentAvailable());
 
                     if(loop == 1)
                     {
@@ -652,6 +675,7 @@ public class ModuleDFunction
         //If have available or deliver status deliverymen
         while(DMAvailableList)
         {
+            int deliverDistance;
             System.out.print("\nEnter Delierymen ID : ");
             DeliveryMenID = s.nextLine();
 
@@ -661,28 +685,52 @@ public class ModuleDFunction
                 {
                     if(deliveryMen.get(i).getStaffID().equals(DeliveryMenID) && deliveryMen.get(i).getCurrentAvailable().equals("Available"))
                     {
+                        do
+                        {
+                            System.out.print("Enter the distance of deliver (KM): ");
+                            deliverDistance = s.nextInt();
+                            
+                            if(deliverDistance < 0)
+                            {
+                                System.out.println("\nDistance cannot less than 0");
+                            }
+                            
+                        }while(deliverDistance < 0);
+                        
+                        int calDeliverTime = deliverDistance * 5; // 1km = 5minutes
+                        
                         Calendar deliverTime = cal;
-                        deliverTime.add(Calendar.MINUTE, 2);//add 2 minute into curent time
+                        deliverTime.add(Calendar.MINUTE, calDeliverTime + 2);//add deliver time + add 2 minute(preparing) into curent time
                         int newNum = DSList.size();
                         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
                         DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+                        
+                        //Change order Status
                         orders.setOrderStatus("3");//2 = Already assign deliverymen to order, 3 = Deliverymen in the progress of deliver
-                        DSList.add(new DeliveryStatus(cal, cal, deliverTime, deliverTime, "Accepted By Delivery Man"));
-
+                        
+                        //Add new Deliver Status
+                        DSList.add(new DeliveryStatus(Calendar.getInstance(), Calendar.getInstance(), deliverTime, deliverTime, "Accepted By Delivery Man"));
                         DSList.get(newNum).setDM(deliveryMen.get(i));
                         DSList.get(newNum).setOrder(orders);
                         
+                        //Set the deliverymen current status to deliver
                         deliveryMen.get(i).setCurrentAvailable("Deliver");
                         
-                        System.out.println("Assign Successfully...");
-                        System.out.println("The Deliverymen will deliver the order after 2 minutes");
+                        System.out.print("\nAssign Successfully...");
+                        System.out.println("The Deliverymen will deliver the order after 2 minutes\n");
+                        
+                        //Display====================================================
                         for(int k = 0 ; k < DSList.size() ; k++)
                         {
-                            System.out.println("Assign Date :" + dateFormat.format(DSList.get(k).getAssignedDate().getTime()));
+                            System.out.println("\nAssign Date :" + dateFormat.format(DSList.get(k).getAssignedDate().getTime()));
                             System.out.println("Assign Time :" + timeFormat.format(DSList.get(k).getAssignedTime().getTime()));
+                            System.out.println("Expected Delivered Date :" + dateFormat.format(DSList.get(k).getDeliveredDate().getTime()));
+                            System.out.println("Expected Delivered Time :" + timeFormat.format(DSList.get(k).getDeliveredTime().getTime()));
+                            //System.out.println("ANS : " + Calendar.getInstance().compareTo(DSList.get(k).getDeliveredTime()));
                             System.out.print(DSList.get(k).getDeliveryStatus() + " ");
                             System.out.println(DSList.get(k).getDM().getStaffID());
                         }
+                        //============================================================
                         
                         DMAvailableList = false;//Finish
                     }
@@ -691,14 +739,135 @@ public class ModuleDFunction
                 {
                     if(deliveryMen.get(i).getStaffID().equals(DeliveryMenID) && deliveryMen.get(i).getCurrentAvailable().equals("Deliver"))
                     {
-                        int newNum = DSList.size();
-                        orders.setOrderStatus("2");//2 = Already assign deliverymen to order
-                        DSList.add(new DeliveryStatus(cal, cal, null, null, "Accepted By Delivery Man"));
+                        do
+                        {
+                            System.out.print("Enter the distance of deliver (KM): ");
+                            deliverDistance = s.nextInt();
+                            
+                            if(deliverDistance < 0)
+                            {
+                                System.out.println("\nDistance cannot less than 0");
+                            }
+                            
+                        }while(deliverDistance < 0);
+                        
+                        int diffSeconds = 0;
+                        int diffMinutes = 0;
+                        int diffHours = 0;
+                        int diffDays = 0;
+                        int calDeliverTime = deliverDistance * 5; // 1km = 5minutes
+                        
+                        //Calculate between assign time and current time
+                        for(int p = 0 ; p < DSList.size() ; p++)
+                        {
+                            try 
+                            {
+                                Date d1 = DSList.get(p).getAssignedTime().getTime();//assign time
+                                Date d2 = Calendar.getInstance().getTime();//current time
 
+                                //in milliseconds
+                                int diff = (int)(d2.getTime() - d1.getTime());
+
+                                diffSeconds = diff / 1000 % 60;
+                                diffMinutes = diff / (60 * 1000) % 60;
+                                diffHours = diff / (60 * 60 * 1000) % 24;
+                                diffDays = diff / (24 * 60 * 60 * 1000);
+                            }
+                            catch (Exception e) 
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                        
+                        int difftSeconds = 0;
+                        int difftMinutes = 0;
+                        int difftHours = 0;
+                        int difftDays = 0;
+                        //Calculate next deliver time left
+                        for(int p = 0 ; p < DSList.size() ; p++)
+                        {
+                            try 
+                            {
+                                Date d1 = DSList.get(p).getDeliveredTime().getTime();//deliver time
+                                Date d2 = Calendar.getInstance().getTime();//current time
+
+                                //in milliseconds
+                                int difft = (int)(d1.getTime() - d2.getTime());
+
+                                difftSeconds = difft / 1000 % 60;
+                                difftMinutes = difft / (60 * 1000) % 60;
+                                difftHours = difft / (60 * 60 * 1000) % 24;
+                                difftDays = difft / (24 * 60 * 60 * 1000);
+                            }
+                            catch (Exception e) 
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                        
+                        int difftTime = difftHours * 60;
+                        int diffTime = diffHours * 60;
+                        Calendar deliverTime = cal;
+                        int total = calDeliverTime + 2 + diffMinutes + diffTime + difftMinutes + difftTime;
+                        deliverTime.add(Calendar.MINUTE, total);//add deliver time + add 2 minute(preparing) + Current deliver time into curent time
+                        int newNum = DSList.size();
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+                        
+                        //Change order Status(no need change order status)
+                        orders.setOrderStatus("2");//2 = Already assign deliverymen to order, 3 = Deliverymen in the progress of deliver
+                        
+                        //Add new Deliver Status
+                        DeliveryStatus DS = new DeliveryStatus(Calendar.getInstance(), Calendar.getInstance(), deliverTime, deliverTime, "Accepted By Delivery Man");
+                        DSList.add(DS);
                         DSList.get(newNum).setDM(deliveryMen.get(i));
                         DSList.get(newNum).setOrder(orders);
                         
-                        System.out.println("Assign Successfully...");
+                        //Set the deliverymen current status to deliver(no need change deliverymen status)
+                        //deliveryMen.get(i).setCurrentAvailable("Deliver");
+                        
+                        int difSeconds = 0;
+                        int difMinutes = 0;
+                        int difHours = 0;
+                        int difDays = 0;
+                        //Calculate next deliver time left
+                        for(int p = 0 ; p < DSList.size() ; p++)
+                        {
+                            try 
+                            {
+                                Date d1 = DSList.get(p).getDeliveredTime().getTime();//deliver time
+                                Date d2 = Calendar.getInstance().getTime();//current time
+
+                                //in milliseconds
+                                int dif = (int)(d1.getTime() - d2.getTime());
+
+                                difSeconds = dif / 1000 % 60;
+                                difMinutes = dif / (60 * 1000) % 60;
+                                difHours = dif / (60 * 60 * 1000) % 24;
+                                difDays = dif / (24 * 60 * 60 * 1000);
+                            }
+                            catch (Exception e) 
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                        
+                        System.out.print("\nAssign Successfully...");
+                        //System.out.println("The Deliverymen will deliver the order after " + difHours + " hours " + difMinutes + " minutes\n");
+                        
+                        //Display====================================================
+                        for(int k = 0 ; k < DSList.size() ; k++)
+                        {
+                            System.out.println("\n" + (k+1) + " Order...");
+                            System.out.println("Assign Date :" + dateFormat.format(DSList.get(k).getAssignedDate().getTime()));
+                            System.out.println("Assign Time :" + timeFormat.format(DSList.get(k).getAssignedTime().getTime()));
+                            System.out.println("Expected Delivered Date :" + dateFormat.format(DSList.get(k).getDeliveredDate().getTime()));
+                            System.out.println("Expected Delivered Time :" + timeFormat.format(DSList.get(k).getDeliveredTime().getTime()));
+                            //System.out.println("ANS : " + Calendar.getInstance().compareTo(DSList.get(k).getDeliveredTime()));
+                            System.out.print(DSList.get(k).getDeliveryStatus() + " ");
+                            System.out.println(DSList.get(k).getDM().getStaffID());
+                        }
+                        //============================================================
                         
                         DMAvailableList = false;//Finish
                     }
@@ -721,44 +890,71 @@ public class ModuleDFunction
         
     }
     
-    /**
-    public void CheckDeliverymen(Orders orders)
-    {
-        DeliveryMan TempDeliveryMen = new DeliveryMan(0, "Not Available", "None", "None", "0", "None", "0", "0", 'X', "None", "None", "None", "None", 0, 0);
-        int count = 1;
-        int count1 = 1;
-        
-        for(int i = 0 ; i < deliveryMen.size() ; i++)
-        {
-            if(deliveryMen.get(i).getCurrentAvailable().equals("Available"))
-            {
-                if(deliveryMen.get(i).getTotalPendingDelivery() > TempDeliveryMen.getTotalPendingDelivery())
-                {
-                    TempDeliveryMen = deliveryMen.get(i);
-                }
-                count++;
-            }
-        }
-        
-        if(count == 1)
-        {
-            for(int i = 0 ; i < deliveryMen.size() ; i++)
-            {
-                if(deliveryMen.get(i).getCurrentAvailable().equals("Deliver"))
-                {
-                    if(deliveryMen.get(i).getTotalPendingDelivery() > TempDeliveryMen.getTotalPendingDelivery())
-                    {
-                        TempDeliveryMen = deliveryMen.get(i);
-                    }
-                    count1++;
-                }
-            }
-        }
-    }**/
-    
     //Let Customer to View Time Remain of Delivery Order
-    public void ViewTimeRemainder()
+    public void ViewTimeRemainder(Customer cust, List<Orders> order)
     {
+        System.out.println("Current Order");
+        System.out.println("==============================");
         
+        for(int i = 0 ; i < order.size() ; i++)
+        {
+            if(order.get(i).getCustomer().getCustName().equals(cust.getCustName()))
+            {
+                System.out.println("Order ID : " + order.get(i).getOrdersID());
+                if(order.get(i).getOrderStatus().equals("1"))
+                {
+                    System.out.println("Waiting to assign the deliverymen");
+                }
+                else if(order.get(i).getOrderStatus().equals("2") || order.get(i).getOrderStatus().equals("3"))
+                {
+                    System.out.println("In process. Time Left : 10 minute ");
+                    
+                    for(int j = 0 ; j < DSList.size() ; j++)
+                    {
+                        System.out.println("\n2\n");
+                        int difMinutes = 0;
+                        int difHours = 0;
+                        int diff = 0;
+                        
+                        if(DSList.get(j).getOrder().getOrdersID().equals(order.get(i).getOrdersID()))
+                        {
+                            try 
+                            {
+                                Date d1 = DSList.get(j).getDeliveredTime().getTime();//assign time
+                                Date d2 = Calendar.getInstance().getTime();//current time
+
+                                //in milliseconds
+                                diff = (int)(d1.getTime() - d2.getTime());
+
+                                difMinutes = diff / (60 * 1000) % 60;
+                                difHours = diff / (60 * 60 * 1000) % 24;
+                            }
+                            catch (Exception e) 
+                            {
+                                e.printStackTrace();
+                            }
+                            if(diff<=0)
+                            {
+                                System.out.println("Delivered");
+                            }
+                            else
+                            {
+                                //System.out.println("In process. Time Left :" + difHours + " hours " + difMinutes + " minutes");
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("xx");
+                        }
+                    }
+                }
+                else
+                {
+                    System.out.println("Do not have any Deliver Order");
+                }
+            }
+        }
+        
+        System.out.println("==============================");
     }
 }

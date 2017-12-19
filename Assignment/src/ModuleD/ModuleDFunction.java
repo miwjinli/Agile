@@ -350,7 +350,7 @@ public class ModuleDFunction
     //let DeliveryMan to view to undeliver order schedule...(logic error)
     public void ViewDeliverSchedule(List<Customer> customer, List<DeliveryMan> deliveryMen, List<Orders> orders, List<Restaurant> restaurant, String staffID)
     {
-        Date date = new Date();
+        /*Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         int hour = cal.get(Calendar.HOUR);
@@ -412,7 +412,7 @@ public class ModuleDFunction
             {
                 System.out.println("No such ID\n");
             }
-        }
+        }*/
     }
     
     
@@ -423,7 +423,7 @@ public class ModuleDFunction
     }
     
     public void AssignFunction(List<Orders> orders)
-    {
+    {/*
         boolean nextAssign = false;
         do
         {
@@ -498,7 +498,7 @@ public class ModuleDFunction
                 }while(wrong);
             }
         
-        }while(nextAssign);
+        }while(nextAssign);*/
     }
     
     public boolean checkOrderID(List<Orders> orders, String orderIDtoAssign)
@@ -508,7 +508,7 @@ public class ModuleDFunction
         int pendingMinute;
         boolean check = false;
         
-        for(int i = 0 ; i < orders.size() ; i++)
+        /*for(int i = 0 ; i < orders.size() ; i++)
         {
             if(orders.get(i).getOrdersID().equals(orderIDtoAssign))
             {
@@ -530,7 +530,7 @@ public class ModuleDFunction
                     }
                 }
             }
-        }
+        }*/
         return check;
     }
     
@@ -542,7 +542,7 @@ public class ModuleDFunction
         int pendingMinute;
         int looping = 0;
         boolean check = false;
-        
+        /*
         for(int i = 0 ; i < orders.size() ; i++)
         {
             pendingMinute = orders.get(i).getOrdersMinute() + 2;
@@ -570,7 +570,7 @@ public class ModuleDFunction
         {
             check = false;
         }
-        
+        */
         return check;
     }
     

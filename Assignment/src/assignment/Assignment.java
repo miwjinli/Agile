@@ -12,8 +12,12 @@ import ModuleD.ModuleDFunction;
 import java.util.List;
 import java.util.ArrayList;
 import domain.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
-
+import java.util.Calendar;
+import java.util.Date;
 /**
  *
  * @author MY
@@ -359,9 +363,18 @@ public class Assignment {
         food.add(new Food("FM000009", "Dinner Plate E", 6.50, "Set", 'A', restaurant.get(1), 'Y'));
         customer.add(new Customer("CU000001", "Miw Jin Li", "14,Taman Cantik,53300,Setapak,Kuala Lumpur", "Setapak", "0167897898", "971003355333", "1234567890"));
         customer.add(new Customer("CU000001", "Miw Jin Le", "14,Taman Cantik,53300,Wangsa Maju,Kuala Lumpur", "Wangsa Maju", "0167897899", "970104079999", "1234567890"));
-        order.add(new Orders(restaurant.get(0), customer.get(0), "OR000001", 0.00, 0.00, "1", 0, 04, 1, 12, 2017));
-        order.add(new Orders(restaurant.get(1), customer.get(1), "OR000002", 0.00, 0.00, "1", 0, 04, 1, 12, 2017));
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        try{
+            Date date = dateFormat.parse("2017/12/09 12:13:12");
+            cal.setTime(date);
+        }catch(ParseException ex){
+            
+        }
+        order.add(new Orders(restaurant.get(0), customer.get(0), "OR000001", 0.00, 0.00, "1",cal));
+        order.add(new Orders(restaurant.get(1), customer.get(1), "OR000002", 0.00, 0.00, "1",cal));
         orderdetail.add(new OrderDetail(order.get(0), food.get(0), 1));
+        orderdetail.add(new OrderDetail(order.get(1), food.get(0), 1));
         DMList.add(new DeliveryMan(1, "Not Available", "None", "DM000001", "123456", "Ong Yi Jun", "971009-02-5213", "012-3456789", 'M', "2345 Lorong 3 Jalan ABC, 51020 KL", "OngYiJun@gmail.com", "Delivery Man", "Employed", 3500, 3500));
         DMList.add(new DeliveryMan(1, "Available", "None", "DM000002", "123456", "Chun Leong", "921005-05-5225", "014-5959595", 'M', "5 Lorong 9 Jalan Long, 51020 Selangor", "ChunLeong@gmail.com", "Delivery Man", "Employed", 3500, 3500));
         B.setDeliveryMen(DMList);

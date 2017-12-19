@@ -5,6 +5,8 @@
  */
 package domain;
 
+import java.util.Calendar;
+
 /**
  *
  * @author ong
@@ -16,28 +18,20 @@ public class Orders {
     private double Subtotal;
     private double Total;
     private String OrderStatus;
-    private int OrdersHour;
-    private int OrdersMinute;
-    private int OrdersDay;
-    private int OrdersMonth;
-    private int OrdersYear;
+    private Calendar OrdersDateTime;
     
     public Orders(){
         
     }
     
-    public Orders(Restaurant restaurant, Customer customer, String OrdersID, double Subtotal, double Total, String OrderStatus, int OrdersHour, int OrdersMinute, int OrdersDay, int OrdersMonth, int OrdersYear) {
+    public Orders(Restaurant restaurant, Customer customer, String OrdersID, double Subtotal, double Total, String OrderStatus, Calendar OrdersDateTime) {
         this.restaurant = restaurant;
         this.customer = customer;
         this.OrdersID = OrdersID;
         this.Subtotal = Subtotal;
         this.Total = Total;
         this.OrderStatus = OrderStatus;
-        this.OrdersHour = OrdersHour;
-        this.OrdersMinute = OrdersMinute;
-        this.OrdersDay = OrdersDay;
-        this.OrdersMonth = OrdersMonth;
-        this.OrdersYear = OrdersYear;
+        this.OrdersDateTime = OrdersDateTime;
     }
 
     public String getOrderStatus() {
@@ -88,53 +82,12 @@ public class Orders {
         this.Total = Total;
     }
 
-    public int getOrdersHour() {
-        return OrdersHour;
+    public Calendar getOrdersDateTime() {
+        return OrdersDateTime;
     }
 
-    public void setOrdersHour(int OrdersHour) {
-        this.OrdersHour = OrdersHour;
-    }
-
-    public int getOrdersMinute() {
-        return OrdersMinute;
-    }
-
-    public void setOrdersMinute(int OrdersMinute) {
-        this.OrdersMinute = OrdersMinute;
-    }
-
-    public int getOrdersDay() {
-        return OrdersDay;
-    }
-
-    public void setOrdersDay(int OrdersDay) {
-        this.OrdersDay = OrdersDay;
-    }
-
-    public int getOrdersMonth() {
-        return OrdersMonth;
-    }
-
-    public void setOrdersMonth(int OrdersMonth) {
-        this.OrdersMonth = OrdersMonth;
-    }
-
-    public int getOrdersYear() {
-        return OrdersYear;
-    }
-
-    public void setOrdersYear(int OrdersYear) {
-        this.OrdersYear = OrdersYear;
-    }
-    
-    public String DatetoString(){
-        return OrdersDay+"/"+OrdersMonth+"/"+OrdersYear+" "+OrdersHour+":"+OrdersMinute;
-    }
-    
-    @Override
-    public String toString() {
-        return "Orders{" + "restaurant=" + restaurant + ", customer=" + customer + ", OrdersID=" + OrdersID + ", Subtotal=" + Subtotal + ", Total=" + Total + ", OrderStatus=" + OrderStatus + ", OrdersHour=" + OrdersHour + ", OrdersMinute=" + OrdersMinute + ", OrdersDay=" + OrdersDay + ", OrdersMonth=" + OrdersMonth + ", OrdersYear=" + OrdersYear + '}';
+    public void setOrdersDateTime(Calendar OrdersDateTime) {
+        this.OrdersDateTime = OrdersDateTime;
     }
     
 }

@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.Date;
 import ModuleA.ModuleAFunction;
 import ModuleD.ModuleDFunction;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author ong
@@ -168,14 +170,10 @@ public class ModuleCFunction {
         String selection = "0",foodid = "0", nextID = "0";
         int quantity;
         nextID = getCurrentID();
+        Calendar cal = Calendar.getInstance();
         currentOrder.setCustomer(current);
         currentOrder.setOrderStatus("Pending");
-        currentOrder.setOrdersDay(0);
-        currentOrder.setOrdersHour(0);
-        currentOrder.setOrdersID(nextID);
-        currentOrder.setOrdersMinute(0);
-        currentOrder.setOrdersMonth(0);
-        currentOrder.setOrdersYear(0);
+        currentOrder.setOrdersDateTime(cal);
         currentOrder.setRestaurant(restaurant.get(resIndex));
         currentOrder.setSubtotal(Subtotal);
         currentOrder.setTotal(Subtotal*1.06);
@@ -266,19 +264,21 @@ public class ModuleCFunction {
         }
         else{
             System.out.println("\n\nBelow Are The Foods You Have Ordered Inside Your Cart");
-            System.out.println("------------------------------------");
+            System.out.println("------------------------------------------------------");
+            System.out.println("-   Food ID   -        Food Name        -  Quantity  -");
+            System.out.println("------------------------------------------------------");
             for(int i=0 ; i<currentDetail.size() ; i++){
-                System.out.println("Food ID: "+currentDetail.get(i).getFood().getFoodID());
-                System.out.println("Food Name: "+currentDetail.get(i).getFood().getFoodName());
-                System.out.println("Quantity: "+currentDetail.get(i).getQuantity());
+                System.out.printf("-  %9s  -",currentDetail.get(i).getFood().getFoodID());
+                System.out.printf(" %22s  -",currentDetail.get(i).getFood().getFoodName());
+                System.out.printf(" %9d  -",currentDetail.get(i).getQuantity());
             }
-            System.out.println("------------------------------------");
+            System.out.println("\n------------------------------------------------------");
             System.out.println("\nPlease Select Your Selection");
             System.out.println("1. Edit Food");
             System.out.println("2. Delete Food");
             System.out.println("3. Cancel Order");
             System.out.println("4. Back");
-            while(!selection.equals("1") && !selection.equals("2") && !selection.equals("3")){
+            while(!selection.equals("1") && !selection.equals("2") && !selection.equals("3") && !selection.equals("4")){
                 System.out.print("Selection: ");
                 selection = s.nextLine();
                 switch(selection){
@@ -335,19 +335,8 @@ public class ModuleCFunction {
         switch(selection){
             case "1":{
                     //getting the system date
-                    Date date = new Date();
                     Calendar cal = Calendar.getInstance();
-                    cal.setTime(date);
-                    int hour = cal.get(Calendar.HOUR);
-                    int minute = cal.get(Calendar.MINUTE);
-                    int year = cal.get(Calendar.YEAR);
-                    int month = cal.get(Calendar.MONTH)+1;
-                    int day = cal.get(Calendar.DAY_OF_MONTH);
-                    currentOrder.setOrdersDay(day);
-                    currentOrder.setOrdersHour(hour);
-                    currentOrder.setOrdersMinute(minute);
-                    currentOrder.setOrdersMonth(month);
-                    currentOrder.setOrdersYear(year);
+                    currentOrder.setOrdersDateTime(cal);
                     currentOrder.setSubtotal(Subtotal);
                     currentOrder.setTotal(Subtotal*1.06);
                     currentOrder.setOrderStatus("1");//change to 1
@@ -366,21 +355,22 @@ public class ModuleCFunction {
                     System.out.printf("Subtotal: RM%.2f\n",currentOrder.getSubtotal());
                     System.out.printf("GST: RM%.2f\n",(currentOrder.getSubtotal()*0.06));
                     System.out.printf("Total: RM%.2f\n",currentOrder.getTotal());
-                    /*for(int k=0 ; k<order.size() ; k++){
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    for(int k=0 ; k<order.size() ; k++){
                         System.out.println("---------------------------------");
-                        System.out.println("Order Date Time->"+order.get(k).DatetoString());
+                        System.out.println("Order Date Time->"+dateFormat.format(order.get(k).getOrdersDateTime().getTime()));
                         System.out.println("---------------------------------");
                         System.out.println("Restaurant Name->"+order.get(k).getRestaurant().getRestaurantName());
-                        for(int j=0 ; j<orderdetail.size() ; j++){
+                        /*for(int j=0 ; j<orderdetail.size() ; j++){
                             if(orderdetail.get(j).getOrders().getOrdersID().equals(order.get(k).getOrdersID())){
                                 System.out.println("Food ID->"+orderdetail.get(j).getFood().getFoodID());
                                 System.out.println("Quantity->"+orderdetail.get(j).getQuantity());
                             }
-                        }
+                        }*/
                         System.out.printf("Subtotal->RM%.2f\n",order.get(k).getSubtotal());
                         System.out.printf("Total->RM%.2f\n",order.get(k).getTotal());
                         System.out.println("-----------------------------");
-                    }*/
+                    }
                     currentOrder = new Orders();
                     currentDetail.clear();
                     Subtotal= 0.00;
